@@ -1,12 +1,89 @@
 package main
 
 import (
-	"bytes"
+	"bufio"
 	"fmt"
-	"regexp"
+	"os"
+	r "runtime"
+	"strconv"
+	"strings"
 )
 
+func debug(a ...any) {
+	_, f, l, _ := r.Caller(1)
+	fmt.Print(fmt.Sprintf("%s%s%v -> ", f, ":", l))
+	fmt.Println(a...)
+}
+
 func main() {
+	newMain()
+	//simpleAdd()
+	//oldMain()
+}
+
+func simpleAdd() {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("ripl")
+	for {
+		fmt.Print("-> ")
+		text, _ := reader.ReadString('\n')
+		dataList := strings.Split(text, " ")
+		if len(dataList) != 3 {
+			fmt.Println("input : [num1] [op(+|-|*|/)] [num2] ")
+		} else {
+			num1, err := s2int64(dataList[0])
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+			op := dataList[1]
+			num2, err := s2int64(dataList[0])
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+			switch op {
+			case "+":
+				fmt.Println(num1 + num2)
+				break
+			case "-":
+				fmt.Println(num1 - num2)
+				break
+			case "*":
+				fmt.Println(num1 * num2)
+			case "/":
+				fmt.Println(num1 / num2)
+			}
+		}
+	}
+}
+
+func s2int64(s string) (int64, error) {
+	v, err := strconv.ParseInt(trimZeroDecimal(s), 0, 0)
+	if err == nil {
+		return v, nil
+	}
+	return 0, fmt.Errorf("unable to cast %#v of type %T to int64", s, s)
+}
+
+func trimZeroDecimal(s string) string {
+	var foundZero bool
+	for i := len(s); i > 0; i-- {
+		switch s[i-1] {
+		case '.':
+			if foundZero {
+				return s[:i-1]
+			}
+		case '0':
+			foundZero = true
+		default:
+			return s
+		}
+	}
+	return s
+}
+
+func oldMain() {
 	// tokens := tokenizer("( add 1  ( subtract 4 100 ))")
 	tokens := tokenizer("( add 2 ( subtract 4 2))")
 	fmt.Println()
@@ -14,136 +91,18 @@ func main() {
 	fmt.Println(simpleParser(tokens))
 }
 
-type tokenItem struct {
-	Type  string `json:"type" simple:"sType"`
-	Value string `json:"value" simple:"sValue"`
-}
-
-func tokenizer(input string) []tokenItem {
-	tokens := make([]tokenItem, 0)
-
-	current := 0
-	for current < len(input) {
-		char := input[current]
-		fmt.Printf("%q", char)
-		if char == '(' {
-			tokens = append(tokens, tokenItem{"paren", "("})
+func newMain() {
+	InitRuntime(false)
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("gscript")
+	for {
+		fmt.Print("-> ")
+		text, _ := reader.ReadString('\n')
+		root, err := Parse(text)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			EvaluateWithRuntime(root, "")
 		}
-		if char == ')' {
-			tokens = append(tokens, tokenItem{"paren", ")"})
-		}
-		WHITESPACE := regexp.MustCompile(`\s`)
-		if WHITESPACE.MatchString(string(char)) {
-			current++
-			continue
-		}
-
-		NUMBERS := regexp.MustCompile(`[0-9]`)
-		if NUMBERS.MatchString(string(char)) {
-			var numbersValue bytes.Buffer
-
-			for NUMBERS.MatchString(string(char)) {
-				numbersValue.WriteString(string(char))
-				current++
-				char = input[current]
-			}
-			tokens = append(tokens, tokenItem{"number", numbersValue.String()})
-			continue
-		}
-
-		if string(char) == "\"" {
-			var stringValue bytes.Buffer
-			current++
-			char = input[current]
-			strChar := string(char)
-			for strChar != "\"" {
-				stringValue.WriteString(strChar)
-				current++
-				char = input[current]
-				strChar = string(char)
-			}
-
-			tokens = append(tokens, tokenItem{"string", stringValue.String()})
-			current++
-			continue
-		}
-
-		LETTERS := regexp.MustCompile(`[a-z]`)
-		if LETTERS.MatchString(string(char)) {
-			var lettersValue bytes.Buffer
-
-			for LETTERS.MatchString(string(char)) {
-				lettersValue.WriteString(string(char))
-				current++
-				char = input[current]
-			}
-			tokens = append(tokens, tokenItem{"name", lettersValue.String()})
-			continue
-		}
-
-		current++
 	}
-
-	return tokens
-}
-
-func walk(tokens []tokenItem, current int) (node, int) {
-	token := tokens[current]
-	if token.Type == "number" {
-		current++
-		return node{
-			"NumberLiteral",
-			token.Value,
-			make([]interface{}, 0),
-		}, current
-	}
-	if token.Type == "string" {
-		current++
-		return node{
-			"StringLiteral",
-			token.Value,
-			make([]interface{}, 0),
-		}, current
-	}
-
-	if token.Type == "paren" && token.Value == "(" {
-		current++
-		token = tokens[current]
-
-		node := node{"CallExpression", token.Value, make([]interface{}, 0)}
-		current++
-		token = tokens[current]
-		for (token.Type != "paren") ||
-			(token.Type == "paren" && token.Value != ")") {
-			node, current = walk(tokens, current)
-			node.Params = append(node.Params, node)
-			token = tokens[current]
-		}
-		current++
-		return node, current
-	}
-	return node{}, current
-}
-
-func simpleParser(tokens []tokenItem) ast {
-	current := 0
-
-	ast := ast{"Program", make([]interface{}, 0)}
-	for current < len(tokens) {
-		node, walkCurrent := walk(tokens, current)
-		current = walkCurrent
-		ast.Body = append(ast.Body, node)
-	}
-	return ast
-}
-
-type ast struct {
-	Type string
-	Body []interface{}
-}
-
-type node struct {
-	Type   string
-	Name   string
-	Params []interface{}
 }

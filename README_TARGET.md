@@ -1,0 +1,21 @@
+# 目标列表
+
+- 单行解析运行
+  - 基础解析器
+  - 四则运算
+  - 变量类型
+  - 判断
+  - 字符串
+  - bool
+  - += -=
+- 多行解析运行
+  - 循环
+- 函数解析
+  - 函数调用
+- 自制?引入？ANTLR/lex/yacc/bison
+- 函数解析调用
+- 多文件引入
+- class/struct
+- global function
+- function_exist
+- 自定义标识符别名
