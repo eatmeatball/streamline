@@ -1,4 +1,4 @@
-package main
+package gscript
 
 import (
 	"bytes"
@@ -11,7 +11,7 @@ type tokenItem struct {
 	Value string `json:"value" simple:"sValue"`
 }
 
-func tokenizer(input string) []tokenItem {
+func Tokenizer(input string) []tokenItem {
 	tokens := make([]tokenItem, 0)
 
 	current := 0
@@ -117,7 +117,7 @@ func walk(tokens []tokenItem, current int) (node, int) {
 	return node{}, current
 }
 
-func simpleParser(tokens []tokenItem) ast {
+func SimpleParser(tokens []tokenItem) ast {
 	current := 0
 
 	ast := ast{"Program", make([]interface{}, 0)}

@@ -1,4 +1,4 @@
-package main
+package gscript
 
 type Type string
 

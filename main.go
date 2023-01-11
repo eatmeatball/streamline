@@ -3,7 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"os"
+	"ri/gscript"
+	"ri/mathparser"
 	r "runtime"
 	"strconv"
 	"strings"
@@ -16,9 +19,95 @@ func debug(a ...any) {
 }
 
 func main() {
-	newMain()
+	antlr4Main()
+	//newMain()
 	//simpleAdd()
 	//oldMain()
+}
+
+/*
+class {
+func numberFunction() int {
+return 1+2
+}
+}
+*/
+
+func antlr4Main() {
+	// Setup the input
+	is := antlr.NewInputStream("1+  1*1-1+2")
+
+	// Create the Lexer
+	lexer := mathparser.NewHelloLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+
+	// Create the Parser
+	p := mathparser.NewHelloParser(stream)
+
+	// Finally parse the expression (by walking the tree)
+	var listener HelloListener
+	antlr.ParseTreeWalkerDefault.Walk(&listener, p.Start())
+
+	fmt.Println(listener.pop())
+}
+
+type HelloListener struct {
+	*mathparser.BaseHelloListener
+
+	stack []int
+}
+
+func (l *HelloListener) push(i int) {
+	l.stack = append(l.stack, i)
+}
+
+func (l *HelloListener) pop() int {
+	if len(l.stack) < 1 {
+		panic("stack is empty unable to pop")
+	}
+
+	// Get the last value from the stack.
+	result := l.stack[len(l.stack)-1]
+
+	// Remove the last element from the stack.
+	l.stack = l.stack[:len(l.stack)-1]
+
+	return result
+}
+
+func (l *HelloListener) ExitMulDiv(c *mathparser.MulDivContext) {
+	right, left := l.pop(), l.pop()
+
+	switch c.GetOp().GetTokenType() {
+	case mathparser.HelloParserMUL:
+		l.push(left * right)
+	case mathparser.HelloParserDIV:
+		l.push(left / right)
+	default:
+		panic(fmt.Sprintf("unexpected op: %s", c.GetOp().GetText()))
+	}
+}
+
+func (l *HelloListener) ExitAddSub(c *mathparser.AddSubContext) {
+	right, left := l.pop(), l.pop()
+
+	switch c.GetOp().GetTokenType() {
+	case mathparser.HelloParserADD:
+		l.push(left + right)
+	case mathparser.HelloParserSUB:
+		l.push(left - right)
+	default:
+		panic(fmt.Sprintf("unexpected op: %s", c.GetOp().GetText()))
+	}
+}
+
+func (l *HelloListener) ExitNumber(c *mathparser.NumberContext) {
+	i, err := strconv.Atoi(c.GetText())
+	if err != nil {
+		panic(err.Error())
+	}
+
+	l.push(i)
 }
 
 func simpleAdd() {
@@ -85,24 +174,24 @@ func trimZeroDecimal(s string) string {
 
 func oldMain() {
 	// tokens := tokenizer("( add 1  ( subtract 4 100 ))")
-	tokens := tokenizer("( add 2 ( subtract 4 2))")
+	tokens := gscript.Tokenizer("( add 2 ( subtract 4 2))")
 	fmt.Println()
 	fmt.Println(tokens)
-	fmt.Println(simpleParser(tokens))
+	fmt.Println(gscript.SimpleParser(tokens))
 }
 
 func newMain() {
-	InitRuntime(false)
+	gscript.InitRuntime(false)
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("gscript")
 	for {
 		fmt.Print("-> ")
 		text, _ := reader.ReadString('\n')
-		root, err := Parse(text)
+		root, err := gscript.Parse(text)
 		if err != nil {
 			fmt.Println(err)
 		} else {
-			EvaluateWithRuntime(root, "")
+			gscript.EvaluateWithRuntime(root, "")
 		}
 	}
 }
