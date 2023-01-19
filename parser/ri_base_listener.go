@@ -21,12 +21,6 @@ func (s *BaseRiListener) EnterEveryRule(ctx antlr.ParserRuleContext) {}
 // ExitEveryRule is called when any rule is exited.
 func (s *BaseRiListener) ExitEveryRule(ctx antlr.ParserRuleContext) {}
 
-// EnterPrimitiveType is called when production primitiveType is entered.
-func (s *BaseRiListener) EnterPrimitiveType(ctx *PrimitiveTypeContext) {}
-
-// ExitPrimitiveType is called when production primitiveType is exited.
-func (s *BaseRiListener) ExitPrimitiveType(ctx *PrimitiveTypeContext) {}
-
 // EnterNumber is called when production Number is entered.
 func (s *BaseRiListener) EnterNumber(ctx *NumberContext) {}
 
@@ -51,11 +45,17 @@ func (s *BaseRiListener) EnterFunctionDeclaration(ctx *FunctionDeclarationContex
 // ExitFunctionDeclaration is called when production functionDeclaration is exited.
 func (s *BaseRiListener) ExitFunctionDeclaration(ctx *FunctionDeclarationContext) {}
 
-// EnterClassDeclaration is called when production classDeclaration is entered.
-func (s *BaseRiListener) EnterClassDeclaration(ctx *ClassDeclarationContext) {}
+// EnterBlockStatement is called when production blockStatement is entered.
+func (s *BaseRiListener) EnterBlockStatement(ctx *BlockStatementContext) {}
 
-// ExitClassDeclaration is called when production classDeclaration is exited.
-func (s *BaseRiListener) ExitClassDeclaration(ctx *ClassDeclarationContext) {}
+// ExitBlockStatement is called when production blockStatement is exited.
+func (s *BaseRiListener) ExitBlockStatement(ctx *BlockStatementContext) {}
+
+// EnterBlockStms is called when production BlockStms is entered.
+func (s *BaseRiListener) EnterBlockStms(ctx *BlockStmsContext) {}
+
+// ExitBlockStms is called when production BlockStms is exited.
+func (s *BaseRiListener) ExitBlockStms(ctx *BlockStmsContext) {}
 
 // EnterStart is called when production start is entered.
 func (s *BaseRiListener) EnterStart(ctx *StartContext) {}

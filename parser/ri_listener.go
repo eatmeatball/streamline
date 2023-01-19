@@ -8,9 +8,6 @@ import "github.com/antlr/antlr4/runtime/Go/antlr/v4"
 type RiListener interface {
 	antlr.ParseTreeListener
 
-	// EnterPrimitiveType is called when entering the primitiveType production.
-	EnterPrimitiveType(c *PrimitiveTypeContext)
-
 	// EnterNumber is called when entering the Number production.
 	EnterNumber(c *NumberContext)
 
@@ -23,14 +20,14 @@ type RiListener interface {
 	// EnterFunctionDeclaration is called when entering the functionDeclaration production.
 	EnterFunctionDeclaration(c *FunctionDeclarationContext)
 
-	// EnterClassDeclaration is called when entering the classDeclaration production.
-	EnterClassDeclaration(c *ClassDeclarationContext)
+	// EnterBlockStatement is called when entering the blockStatement production.
+	EnterBlockStatement(c *BlockStatementContext)
+
+	// EnterBlockStms is called when entering the BlockStms production.
+	EnterBlockStms(c *BlockStmsContext)
 
 	// EnterStart is called when entering the start production.
 	EnterStart(c *StartContext)
-
-	// ExitPrimitiveType is called when exiting the primitiveType production.
-	ExitPrimitiveType(c *PrimitiveTypeContext)
 
 	// ExitNumber is called when exiting the Number production.
 	ExitNumber(c *NumberContext)
@@ -44,8 +41,11 @@ type RiListener interface {
 	// ExitFunctionDeclaration is called when exiting the functionDeclaration production.
 	ExitFunctionDeclaration(c *FunctionDeclarationContext)
 
-	// ExitClassDeclaration is called when exiting the classDeclaration production.
-	ExitClassDeclaration(c *ClassDeclarationContext)
+	// ExitBlockStatement is called when exiting the blockStatement production.
+	ExitBlockStatement(c *BlockStatementContext)
+
+	// ExitBlockStms is called when exiting the BlockStms production.
+	ExitBlockStms(c *BlockStmsContext)
 
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)

@@ -8,9 +8,6 @@ import "github.com/antlr/antlr4/runtime/Go/antlr/v4"
 type RiVisitor interface {
 	antlr.ParseTreeVisitor
 
-	// Visit a parse tree produced by RiParser#primitiveType.
-	VisitPrimitiveType(ctx *PrimitiveTypeContext) interface{}
-
 	// Visit a parse tree produced by RiParser#Number.
 	VisitNumber(ctx *NumberContext) interface{}
 
@@ -23,8 +20,11 @@ type RiVisitor interface {
 	// Visit a parse tree produced by RiParser#functionDeclaration.
 	VisitFunctionDeclaration(ctx *FunctionDeclarationContext) interface{}
 
-	// Visit a parse tree produced by RiParser#classDeclaration.
-	VisitClassDeclaration(ctx *ClassDeclarationContext) interface{}
+	// Visit a parse tree produced by RiParser#blockStatement.
+	VisitBlockStatement(ctx *BlockStatementContext) interface{}
+
+	// Visit a parse tree produced by RiParser#BlockStms.
+	VisitBlockStms(ctx *BlockStmsContext) interface{}
 
 	// Visit a parse tree produced by RiParser#start.
 	VisitStart(ctx *StartContext) interface{}

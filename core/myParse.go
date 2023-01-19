@@ -1,4 +1,4 @@
-package main
+package core
 
 import (
 	"fmt"
@@ -12,13 +12,13 @@ type RiListener struct {
 	stack []int
 }
 
-func (l *RiListener) push(i int) {
+func (l *RiListener) Push(i int) {
 	l.stack = append(l.stack, i)
 }
 
-func (l *RiListener) pop() int {
+func (l *RiListener) Pop() int {
 	if len(l.stack) < 1 {
-		panic("stack is empty unable to pop")
+		panic("stack is empty unable to Pop")
 	}
 
 	// Get the last value from the stack.
@@ -31,26 +31,26 @@ func (l *RiListener) pop() int {
 }
 
 func (l *RiListener) ExitMulDiv(c *parser.MulDivContext) {
-	right, left := l.pop(), l.pop()
+	right, left := l.Pop(), l.Pop()
 
 	switch c.GetOp().GetTokenType() {
 	case parser.RiParserMUL:
-		l.push(left * right)
+		l.Push(left * right)
 	case parser.RiParserDIV:
-		l.push(left / right)
+		l.Push(left / right)
 	default:
 		panic(fmt.Sprintf("unexpected op: %s", c.GetOp().GetText()))
 	}
 }
 
 func (l *RiListener) ExitAddSub(c *parser.AddSubContext) {
-	right, left := l.pop(), l.pop()
+	right, left := l.Pop(), l.Pop()
 
 	switch c.GetOp().GetTokenType() {
 	case parser.RiParserADD:
-		l.push(left + right)
+		l.Push(left + right)
 	case parser.RiParserSUB:
-		l.push(left - right)
+		l.Push(left - right)
 	default:
 		panic(fmt.Sprintf("unexpected op: %s", c.GetOp().GetText()))
 	}
@@ -62,5 +62,5 @@ func (l *RiListener) ExitNumber(c *parser.NumberContext) {
 		panic(err.Error())
 	}
 
-	l.push(i)
+	l.Push(i)
 }

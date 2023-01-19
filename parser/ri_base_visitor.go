@@ -8,10 +8,6 @@ type BaseRiVisitor struct {
 	*antlr.BaseParseTreeVisitor
 }
 
-func (v *BaseRiVisitor) VisitPrimitiveType(ctx *PrimitiveTypeContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
 func (v *BaseRiVisitor) VisitNumber(ctx *NumberContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -28,7 +24,11 @@ func (v *BaseRiVisitor) VisitFunctionDeclaration(ctx *FunctionDeclarationContext
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseRiVisitor) VisitClassDeclaration(ctx *ClassDeclarationContext) interface{} {
+func (v *BaseRiVisitor) VisitBlockStatement(ctx *BlockStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseRiVisitor) VisitBlockStms(ctx *BlockStmsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
