@@ -8,7 +8,19 @@ type BaseRiVisitor struct {
 	*antlr.BaseParseTreeVisitor
 }
 
-func (v *BaseRiVisitor) VisitNumber(ctx *NumberContext) interface{} {
+func (v *BaseRiVisitor) VisitPrintExpr(ctx *PrintExprContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseRiVisitor) VisitAssgin(ctx *AssginContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseRiVisitor) VisitBlank(ctx *BlankContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseRiVisitor) VisitParens(ctx *ParensContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -20,18 +32,14 @@ func (v *BaseRiVisitor) VisitAddSub(ctx *AddSubContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseRiVisitor) VisitFunctionDeclaration(ctx *FunctionDeclarationContext) interface{} {
+func (v *BaseRiVisitor) VisitId(ctx *IdContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseRiVisitor) VisitBlockStatement(ctx *BlockStatementContext) interface{} {
+func (v *BaseRiVisitor) VisitInt(ctx *IntContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseRiVisitor) VisitBlockStms(ctx *BlockStmsContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseRiVisitor) VisitStart(ctx *StartContext) interface{} {
+func (v *BaseRiVisitor) VisitProg(ctx *ProgContext) interface{} {
 	return v.VisitChildren(ctx)
 }

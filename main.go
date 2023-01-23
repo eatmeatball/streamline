@@ -28,18 +28,22 @@ func main() {
 }
 
 func ri() {
-	code := `func a() int {
-return 1+1 +1
-}`
+	code := `a=1+2+3+4+5+6+10*10
+b=1231+1
+`
 	is := antlr.NewInputStream(code)
 	// 初始化相关内容
-	fmt.Println(is)
 	lexer := parser.NewRiLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := parser.NewRiParser(stream)
-	var listener core.RiListener
-	antlr.ParseTreeWalkerDefault.Walk(&listener, p.Start())
-	fmt.Println(listener.Pop())
+	p.BuildParseTrees = true
+	tree := p.Prog()
+	v := core.NewRiVisitor()
+	result := v.Visit(tree)
+	// 当前问题
+	// 1 当前返回出现问题是因为循环的第一个child ，并没有进行后续循环
+	// 2 存在对应访问节点出现不符合预期现象。可能g4编写错误。或者对应访问编写错误
+	fmt.Println(code, result)
 }
 
 /*
