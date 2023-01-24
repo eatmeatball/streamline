@@ -7,14 +7,20 @@ import (
 	"ri/parser"
 )
 
+type vt struct {
+	vInt  *int
+	vBool *bool
+	vIntS *[10]int
+}
+
 type RiVisitor struct {
 	parser.BaseRiVisitor
-	memory map[string]int
+	memory map[string]any
 }
 
 func NewRiVisitor() *RiVisitor {
 	return &RiVisitor{
-		memory: map[string]int{},
+		memory: map[string]any{},
 	}
 }
 
@@ -45,6 +51,10 @@ func (v *RiVisitor) VisitTree(tree antlr.Tree) any {
 		return v.VisitMod(ctx)
 	case *parser.EchoExprContext:
 		return v.VisitEchoExpr(ctx)
+	case *parser.BoolContext:
+		return v.VisitBool(ctx)
+	case *parser.IfLogicContext:
+		return v.VisitIfLogic(ctx)
 	default:
 		fmt.Printf("%T\n", ctx)
 		panic("Unknown context")
@@ -66,9 +76,8 @@ func (v *RiVisitor) VisitPrintExpr(ctx *parser.PrintExprContext) interface{} {
 
 func (v *RiVisitor) VisitAssgin(ctx *parser.AssginContext) interface{} {
 	id := ctx.ID().GetText()
-	value, _ := v.Visit(ctx.Expr()).(int)
-	v.memory[id] = value
-	return value
+	v.memory[id] = v.Visit(ctx.Expr())
+	return v.Visit(ctx.Expr())
 }
 
 func (v *RiVisitor) VisitBlank(ctx *parser.BlankContext) interface{} {
@@ -81,7 +90,7 @@ func (v *RiVisitor) VisitParens(ctx *parser.ParensContext) interface{} {
 
 func (v *RiVisitor) VisitMulDiv(ctx *parser.MulDivContext) interface{} {
 	left := cast.ToInt(v.Visit(ctx.Expr(0)))
-	right := cast.ToInt(v.Visit(ctx.Expr(0)))
+	right := cast.ToInt(v.Visit(ctx.Expr(1)))
 	if ctx.GetOp().GetTokenType() == parser.RiParserMUL {
 		return left * right
 	} else {
@@ -118,4 +127,28 @@ func (v *RiVisitor) VisitEchoExpr(ctx *parser.EchoExprContext) interface{} {
 	data, _ := v.memory[id]
 	fmt.Println(data)
 	return v.VisitChildren(ctx)
+}
+
+func (v *RiVisitor) VisitBool(ctx *parser.BoolContext) interface{} {
+	if ctx.GetOp().GetTokenType() == parser.RiParserFALSE {
+		return false
+	} else {
+		return true
+	}
+}
+
+func (v *RiVisitor) VisitParExpression(ctx *parser.ParExpressionContext) interface{} {
+	return v.Visit(ctx.Expr())
+}
+func (v *RiVisitor) VisitIfLogic(ctx *parser.IfLogicContext) interface{} {
+	ret := v.VisitParExpression(ctx.ParExpression().(*parser.ParExpressionContext))
+	var condition bool
+	switch ret.(type) {
+	case bool:
+		condition = ret.(bool)
+	}
+	if condition {
+		v.Visit(ctx.Stat())
+	}
+	return nil
 }

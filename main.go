@@ -15,9 +15,8 @@ func debug(a ...any) {
 }
 
 func main() {
-	antlr4Main()
-	fmt.Println("ri start")
 	ri()
+	//antlr4Main()
 	//newMain()
 	//simpleAdd()
 	//oldMain()
@@ -25,7 +24,7 @@ func main() {
 
 func ri() {
 	code := `a=1+2+10*10+13%10
-a
+a=a+a+a+a
 b=1231+1
 b
 b
@@ -33,10 +32,20 @@ b
 b
 echo(a)
 echo(b)
+c=true
+d=false
+echo(c)
+echo(d)
+a=a*1000
 echo(a)
+if(c){
+a=a*1000
 echo(a)
+}
+if(d){
+a=123
 echo(a)
-echo(a)
+}
 `
 	is := antlr.NewInputStream(code)
 	// 初始化相关内容
@@ -46,6 +55,7 @@ echo(a)
 	p.BuildParseTrees = true
 	tree := p.Prog()
 	v := engine.NewRiVisitor()
+	fmt.Println(code)
 	result := v.Visit(tree)
-	fmt.Println(code, result)
+	fmt.Println(result)
 }

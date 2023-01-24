@@ -33,40 +33,45 @@ var riParserStaticData struct {
 func riParserInit() {
 	staticData := &riParserStaticData
 	staticData.literalNames = []string{
-		"", "'('", "')'", "'='", "'echo'", "", "", "", "", "'*'", "'/'", "'+'",
-		"'-'", "'%'",
+		"", "'('", "')'", "'{'", "'}'", "'='", "'echo'", "'if'", "'bool'", "'true'",
+		"'false'", "", "", "", "", "'*'", "'/'", "'+'", "'-'", "'%'",
 	}
 	staticData.symbolicNames = []string{
-		"", "", "", "", "ECHO", "ID", "INT", "NEWLINE", "WS", "MUL", "DIV",
-		"ADD", "SUB", "MOD",
+		"", "", "", "", "", "", "ECHO", "IF", "BOOL", "TRUE", "FALSE", "ID",
+		"INT", "NEWLINE", "WS", "MUL", "DIV", "ADD", "SUB", "MOD",
 	}
 	staticData.ruleNames = []string{
-		"prog", "stat", "expr",
+		"expr", "parExpression", "stat", "prog",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 13, 51, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 1, 0, 4, 0, 8, 8, 0,
-		11, 0, 12, 0, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 26, 8, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-		2, 1, 2, 1, 2, 3, 2, 35, 8, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-		1, 2, 1, 2, 5, 2, 46, 8, 2, 10, 2, 12, 2, 49, 9, 2, 1, 2, 0, 1, 4, 3, 0,
-		2, 4, 0, 2, 1, 0, 9, 10, 1, 0, 11, 12, 56, 0, 7, 1, 0, 0, 0, 2, 25, 1,
-		0, 0, 0, 4, 34, 1, 0, 0, 0, 6, 8, 3, 2, 1, 0, 7, 6, 1, 0, 0, 0, 8, 9, 1,
-		0, 0, 0, 9, 7, 1, 0, 0, 0, 9, 10, 1, 0, 0, 0, 10, 1, 1, 0, 0, 0, 11, 12,
-		5, 4, 0, 0, 12, 13, 5, 1, 0, 0, 13, 14, 5, 5, 0, 0, 14, 15, 5, 2, 0, 0,
-		15, 26, 5, 7, 0, 0, 16, 17, 3, 4, 2, 0, 17, 18, 5, 7, 0, 0, 18, 26, 1,
-		0, 0, 0, 19, 20, 5, 5, 0, 0, 20, 21, 5, 3, 0, 0, 21, 22, 3, 4, 2, 0, 22,
-		23, 5, 7, 0, 0, 23, 26, 1, 0, 0, 0, 24, 26, 5, 7, 0, 0, 25, 11, 1, 0, 0,
-		0, 25, 16, 1, 0, 0, 0, 25, 19, 1, 0, 0, 0, 25, 24, 1, 0, 0, 0, 26, 3, 1,
-		0, 0, 0, 27, 28, 6, 2, -1, 0, 28, 35, 5, 6, 0, 0, 29, 35, 5, 5, 0, 0, 30,
-		31, 5, 1, 0, 0, 31, 32, 3, 4, 2, 0, 32, 33, 5, 2, 0, 0, 33, 35, 1, 0, 0,
-		0, 34, 27, 1, 0, 0, 0, 34, 29, 1, 0, 0, 0, 34, 30, 1, 0, 0, 0, 35, 47,
-		1, 0, 0, 0, 36, 37, 10, 6, 0, 0, 37, 38, 5, 13, 0, 0, 38, 46, 3, 4, 2,
-		7, 39, 40, 10, 5, 0, 0, 40, 41, 7, 0, 0, 0, 41, 46, 3, 4, 2, 6, 42, 43,
-		10, 4, 0, 0, 43, 44, 7, 1, 0, 0, 44, 46, 3, 4, 2, 5, 45, 36, 1, 0, 0, 0,
-		45, 39, 1, 0, 0, 0, 45, 42, 1, 0, 0, 0, 46, 49, 1, 0, 0, 0, 47, 45, 1,
-		0, 0, 0, 47, 48, 1, 0, 0, 0, 48, 5, 1, 0, 0, 0, 49, 47, 1, 0, 0, 0, 5,
-		9, 25, 34, 45, 47,
+		4, 1, 19, 64, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1,
+		0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 3, 0, 17, 8, 0, 1, 0, 1, 0, 1, 0,
+		1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 5, 0, 28, 8, 0, 10, 0, 12, 0, 31, 9,
+		0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+		2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+		2, 3, 2, 57, 8, 2, 1, 3, 4, 3, 60, 8, 3, 11, 3, 12, 3, 61, 1, 3, 0, 1,
+		0, 4, 0, 2, 4, 6, 0, 3, 1, 0, 9, 10, 1, 0, 15, 16, 1, 0, 17, 18, 70, 0,
+		16, 1, 0, 0, 0, 2, 32, 1, 0, 0, 0, 4, 56, 1, 0, 0, 0, 6, 59, 1, 0, 0, 0,
+		8, 9, 6, 0, -1, 0, 9, 17, 7, 0, 0, 0, 10, 17, 5, 12, 0, 0, 11, 17, 5, 11,
+		0, 0, 12, 13, 5, 1, 0, 0, 13, 14, 3, 0, 0, 0, 14, 15, 5, 2, 0, 0, 15, 17,
+		1, 0, 0, 0, 16, 8, 1, 0, 0, 0, 16, 10, 1, 0, 0, 0, 16, 11, 1, 0, 0, 0,
+		16, 12, 1, 0, 0, 0, 17, 29, 1, 0, 0, 0, 18, 19, 10, 7, 0, 0, 19, 20, 5,
+		19, 0, 0, 20, 28, 3, 0, 0, 8, 21, 22, 10, 6, 0, 0, 22, 23, 7, 1, 0, 0,
+		23, 28, 3, 0, 0, 7, 24, 25, 10, 5, 0, 0, 25, 26, 7, 2, 0, 0, 26, 28, 3,
+		0, 0, 6, 27, 18, 1, 0, 0, 0, 27, 21, 1, 0, 0, 0, 27, 24, 1, 0, 0, 0, 28,
+		31, 1, 0, 0, 0, 29, 27, 1, 0, 0, 0, 29, 30, 1, 0, 0, 0, 30, 1, 1, 0, 0,
+		0, 31, 29, 1, 0, 0, 0, 32, 33, 5, 1, 0, 0, 33, 34, 3, 0, 0, 0, 34, 35,
+		5, 2, 0, 0, 35, 3, 1, 0, 0, 0, 36, 37, 5, 6, 0, 0, 37, 38, 5, 1, 0, 0,
+		38, 39, 5, 11, 0, 0, 39, 40, 5, 2, 0, 0, 40, 57, 5, 13, 0, 0, 41, 42, 5,
+		7, 0, 0, 42, 43, 3, 2, 1, 0, 43, 44, 5, 3, 0, 0, 44, 45, 3, 4, 2, 0, 45,
+		46, 5, 4, 0, 0, 46, 57, 1, 0, 0, 0, 47, 48, 3, 0, 0, 0, 48, 49, 5, 13,
+		0, 0, 49, 57, 1, 0, 0, 0, 50, 51, 5, 11, 0, 0, 51, 52, 5, 5, 0, 0, 52,
+		53, 3, 0, 0, 0, 53, 54, 5, 13, 0, 0, 54, 57, 1, 0, 0, 0, 55, 57, 5, 13,
+		0, 0, 56, 36, 1, 0, 0, 0, 56, 41, 1, 0, 0, 0, 56, 47, 1, 0, 0, 0, 56, 50,
+		1, 0, 0, 0, 56, 55, 1, 0, 0, 0, 57, 5, 1, 0, 0, 0, 58, 60, 3, 4, 2, 0,
+		59, 58, 1, 0, 0, 0, 60, 61, 1, 0, 0, 0, 61, 59, 1, 0, 0, 0, 61, 62, 1,
+		0, 0, 0, 62, 7, 1, 0, 0, 0, 5, 16, 27, 29, 56, 61,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -108,481 +113,31 @@ const (
 	RiParserT__0    = 1
 	RiParserT__1    = 2
 	RiParserT__2    = 3
-	RiParserECHO    = 4
-	RiParserID      = 5
-	RiParserINT     = 6
-	RiParserNEWLINE = 7
-	RiParserWS      = 8
-	RiParserMUL     = 9
-	RiParserDIV     = 10
-	RiParserADD     = 11
-	RiParserSUB     = 12
-	RiParserMOD     = 13
+	RiParserT__3    = 4
+	RiParserT__4    = 5
+	RiParserECHO    = 6
+	RiParserIF      = 7
+	RiParserBOOL    = 8
+	RiParserTRUE    = 9
+	RiParserFALSE   = 10
+	RiParserID      = 11
+	RiParserINT     = 12
+	RiParserNEWLINE = 13
+	RiParserWS      = 14
+	RiParserMUL     = 15
+	RiParserDIV     = 16
+	RiParserADD     = 17
+	RiParserSUB     = 18
+	RiParserMOD     = 19
 )
 
 // RiParser rules.
 const (
-	RiParserRULE_prog = 0
-	RiParserRULE_stat = 1
-	RiParserRULE_expr = 2
+	RiParserRULE_expr          = 0
+	RiParserRULE_parExpression = 1
+	RiParserRULE_stat          = 2
+	RiParserRULE_prog          = 3
 )
-
-// IProgContext is an interface to support dynamic dispatch.
-type IProgContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// IsProgContext differentiates from other interfaces.
-	IsProgContext()
-}
-
-type ProgContext struct {
-	*antlr.BaseParserRuleContext
-	parser antlr.Parser
-}
-
-func NewEmptyProgContext() *ProgContext {
-	var p = new(ProgContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = RiParserRULE_prog
-	return p
-}
-
-func (*ProgContext) IsProgContext() {}
-
-func NewProgContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ProgContext {
-	var p = new(ProgContext)
-
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = RiParserRULE_prog
-
-	return p
-}
-
-func (s *ProgContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *ProgContext) AllStat() []IStatContext {
-	children := s.GetChildren()
-	len := 0
-	for _, ctx := range children {
-		if _, ok := ctx.(IStatContext); ok {
-			len++
-		}
-	}
-
-	tst := make([]IStatContext, len)
-	i := 0
-	for _, ctx := range children {
-		if t, ok := ctx.(IStatContext); ok {
-			tst[i] = t.(IStatContext)
-			i++
-		}
-	}
-
-	return tst
-}
-
-func (s *ProgContext) Stat(i int) IStatContext {
-	var t antlr.RuleContext
-	j := 0
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IStatContext); ok {
-			if j == i {
-				t = ctx.(antlr.RuleContext)
-				break
-			}
-			j++
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IStatContext)
-}
-
-func (s *ProgContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *ProgContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ProgContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
-	switch t := visitor.(type) {
-	case RiVisitor:
-		return t.VisitProg(s)
-
-	default:
-		return t.VisitChildren(s)
-	}
-}
-
-func (p *RiParser) Prog() (localctx IProgContext) {
-	this := p
-	_ = this
-
-	localctx = NewProgContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 0, RiParserRULE_prog)
-	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
-	p.EnterOuterAlt(localctx, 1)
-	p.SetState(7)
-	p.GetErrorHandler().Sync(p)
-	_la = p.GetTokenStream().LA(1)
-
-	for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&242) != 0 {
-		{
-			p.SetState(6)
-			p.Stat()
-		}
-
-		p.SetState(9)
-		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
-	}
-
-	return localctx
-}
-
-// IStatContext is an interface to support dynamic dispatch.
-type IStatContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// IsStatContext differentiates from other interfaces.
-	IsStatContext()
-}
-
-type StatContext struct {
-	*antlr.BaseParserRuleContext
-	parser antlr.Parser
-}
-
-func NewEmptyStatContext() *StatContext {
-	var p = new(StatContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = RiParserRULE_stat
-	return p
-}
-
-func (*StatContext) IsStatContext() {}
-
-func NewStatContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *StatContext {
-	var p = new(StatContext)
-
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = RiParserRULE_stat
-
-	return p
-}
-
-func (s *StatContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *StatContext) CopyFrom(ctx *StatContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
-}
-
-func (s *StatContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *StatContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-type BlankContext struct {
-	*StatContext
-}
-
-func NewBlankContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *BlankContext {
-	var p = new(BlankContext)
-
-	p.StatContext = NewEmptyStatContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*StatContext))
-
-	return p
-}
-
-func (s *BlankContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *BlankContext) NEWLINE() antlr.TerminalNode {
-	return s.GetToken(RiParserNEWLINE, 0)
-}
-
-func (s *BlankContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
-	switch t := visitor.(type) {
-	case RiVisitor:
-		return t.VisitBlank(s)
-
-	default:
-		return t.VisitChildren(s)
-	}
-}
-
-type AssginContext struct {
-	*StatContext
-}
-
-func NewAssginContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *AssginContext {
-	var p = new(AssginContext)
-
-	p.StatContext = NewEmptyStatContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*StatContext))
-
-	return p
-}
-
-func (s *AssginContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *AssginContext) ID() antlr.TerminalNode {
-	return s.GetToken(RiParserID, 0)
-}
-
-func (s *AssginContext) Expr() IExprContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IExprContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IExprContext)
-}
-
-func (s *AssginContext) NEWLINE() antlr.TerminalNode {
-	return s.GetToken(RiParserNEWLINE, 0)
-}
-
-func (s *AssginContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
-	switch t := visitor.(type) {
-	case RiVisitor:
-		return t.VisitAssgin(s)
-
-	default:
-		return t.VisitChildren(s)
-	}
-}
-
-type EchoExprContext struct {
-	*StatContext
-}
-
-func NewEchoExprContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *EchoExprContext {
-	var p = new(EchoExprContext)
-
-	p.StatContext = NewEmptyStatContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*StatContext))
-
-	return p
-}
-
-func (s *EchoExprContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *EchoExprContext) ECHO() antlr.TerminalNode {
-	return s.GetToken(RiParserECHO, 0)
-}
-
-func (s *EchoExprContext) ID() antlr.TerminalNode {
-	return s.GetToken(RiParserID, 0)
-}
-
-func (s *EchoExprContext) NEWLINE() antlr.TerminalNode {
-	return s.GetToken(RiParserNEWLINE, 0)
-}
-
-func (s *EchoExprContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
-	switch t := visitor.(type) {
-	case RiVisitor:
-		return t.VisitEchoExpr(s)
-
-	default:
-		return t.VisitChildren(s)
-	}
-}
-
-type PrintExprContext struct {
-	*StatContext
-}
-
-func NewPrintExprContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *PrintExprContext {
-	var p = new(PrintExprContext)
-
-	p.StatContext = NewEmptyStatContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*StatContext))
-
-	return p
-}
-
-func (s *PrintExprContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *PrintExprContext) Expr() IExprContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IExprContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IExprContext)
-}
-
-func (s *PrintExprContext) NEWLINE() antlr.TerminalNode {
-	return s.GetToken(RiParserNEWLINE, 0)
-}
-
-func (s *PrintExprContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
-	switch t := visitor.(type) {
-	case RiVisitor:
-		return t.VisitPrintExpr(s)
-
-	default:
-		return t.VisitChildren(s)
-	}
-}
-
-func (p *RiParser) Stat() (localctx IStatContext) {
-	this := p
-	_ = this
-
-	localctx = NewStatContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 2, RiParserRULE_stat)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
-	p.SetState(25)
-	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext()) {
-	case 1:
-		localctx = NewEchoExprContext(p, localctx)
-		p.EnterOuterAlt(localctx, 1)
-		{
-			p.SetState(11)
-			p.Match(RiParserECHO)
-		}
-		{
-			p.SetState(12)
-			p.Match(RiParserT__0)
-		}
-		{
-			p.SetState(13)
-			p.Match(RiParserID)
-		}
-		{
-			p.SetState(14)
-			p.Match(RiParserT__1)
-		}
-		{
-			p.SetState(15)
-			p.Match(RiParserNEWLINE)
-		}
-
-	case 2:
-		localctx = NewPrintExprContext(p, localctx)
-		p.EnterOuterAlt(localctx, 2)
-		{
-			p.SetState(16)
-			p.expr(0)
-		}
-		{
-			p.SetState(17)
-			p.Match(RiParserNEWLINE)
-		}
-
-	case 3:
-		localctx = NewAssginContext(p, localctx)
-		p.EnterOuterAlt(localctx, 3)
-		{
-			p.SetState(19)
-			p.Match(RiParserID)
-		}
-		{
-			p.SetState(20)
-			p.Match(RiParserT__2)
-		}
-		{
-			p.SetState(21)
-			p.expr(0)
-		}
-		{
-			p.SetState(22)
-			p.Match(RiParserNEWLINE)
-		}
-
-	case 4:
-		localctx = NewBlankContext(p, localctx)
-		p.EnterOuterAlt(localctx, 4)
-		{
-			p.SetState(24)
-			p.Match(RiParserNEWLINE)
-		}
-
-	}
-
-	return localctx
-}
 
 // IExprContext is an interface to support dynamic dispatch.
 type IExprContext interface {
@@ -745,6 +300,47 @@ func (s *ModContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case RiVisitor:
 		return t.VisitMod(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+type BoolContext struct {
+	*ExprContext
+	op antlr.Token
+}
+
+func NewBoolContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *BoolContext {
+	var p = new(BoolContext)
+
+	p.ExprContext = NewEmptyExprContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*ExprContext))
+
+	return p
+}
+
+func (s *BoolContext) GetOp() antlr.Token { return s.op }
+
+func (s *BoolContext) SetOp(v antlr.Token) { s.op = v }
+
+func (s *BoolContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *BoolContext) FALSE() antlr.TerminalNode {
+	return s.GetToken(RiParserFALSE, 0)
+}
+
+func (s *BoolContext) TRUE() antlr.TerminalNode {
+	return s.GetToken(RiParserTRUE, 0)
+}
+
+func (s *BoolContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitBool(s)
 
 	default:
 		return t.VisitChildren(s)
@@ -992,8 +588,8 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 	localctx = NewExprContext(p, p.GetParserRuleContext(), _parentState)
 	var _prevctx IExprContext = localctx
 	var _ antlr.ParserRuleContext = _prevctx // TODO: To prevent unused variable warning.
-	_startState := 4
-	p.EnterRecursionRule(localctx, 4, RiParserRULE_expr, _p)
+	_startState := 0
+	p.EnterRecursionRule(localctx, 0, RiParserRULE_expr, _p)
 	var _la int
 
 	defer func() {
@@ -1015,17 +611,40 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(34)
+	p.SetState(16)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
-	case RiParserINT:
-		localctx = NewIntContext(p, localctx)
+	case RiParserTRUE, RiParserFALSE:
+		localctx = NewBoolContext(p, localctx)
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 
 		{
-			p.SetState(28)
+			p.SetState(9)
+
+			var _lt = p.GetTokenStream().LT(1)
+
+			localctx.(*BoolContext).op = _lt
+
+			_la = p.GetTokenStream().LA(1)
+
+			if !(_la == RiParserTRUE || _la == RiParserFALSE) {
+				var _ri = p.GetErrorHandler().RecoverInline(p)
+
+				localctx.(*BoolContext).op = _ri
+			} else {
+				p.GetErrorHandler().ReportMatch(p)
+				p.Consume()
+			}
+		}
+
+	case RiParserINT:
+		localctx = NewIntContext(p, localctx)
+		p.SetParserRuleContext(localctx)
+		_prevctx = localctx
+		{
+			p.SetState(10)
 			p.Match(RiParserINT)
 		}
 
@@ -1034,7 +653,7 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(29)
+			p.SetState(11)
 			p.Match(RiParserID)
 		}
 
@@ -1043,15 +662,15 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(30)
+			p.SetState(12)
 			p.Match(RiParserT__0)
 		}
 		{
-			p.SetState(31)
+			p.SetState(13)
 			p.expr(0)
 		}
 		{
-			p.SetState(32)
+			p.SetState(14)
 			p.Match(RiParserT__1)
 		}
 
@@ -1059,9 +678,9 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(47)
+	p.SetState(29)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
@@ -1069,36 +688,36 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 				p.TriggerExitRuleEvent()
 			}
 			_prevctx = localctx
-			p.SetState(45)
+			p.SetState(27)
 			p.GetErrorHandler().Sync(p)
-			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
+			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewModContext(p, NewExprContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, RiParserRULE_expr)
-				p.SetState(36)
+				p.SetState(18)
 
-				if !(p.Precpred(p.GetParserRuleContext(), 6)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 6)", ""))
+				if !(p.Precpred(p.GetParserRuleContext(), 7)) {
+					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 7)", ""))
 				}
 				{
-					p.SetState(37)
+					p.SetState(19)
 					p.Match(RiParserMOD)
 				}
 				{
-					p.SetState(38)
-					p.expr(7)
+					p.SetState(20)
+					p.expr(8)
 				}
 
 			case 2:
 				localctx = NewMulDivContext(p, NewExprContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, RiParserRULE_expr)
-				p.SetState(39)
+				p.SetState(21)
 
-				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+				if !(p.Precpred(p.GetParserRuleContext(), 6)) {
+					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 6)", ""))
 				}
 				{
-					p.SetState(40)
+					p.SetState(22)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -1116,20 +735,20 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 					}
 				}
 				{
-					p.SetState(41)
-					p.expr(6)
+					p.SetState(23)
+					p.expr(7)
 				}
 
 			case 3:
 				localctx = NewAddSubContext(p, NewExprContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, RiParserRULE_expr)
-				p.SetState(42)
+				p.SetState(24)
 
-				if !(p.Precpred(p.GetParserRuleContext(), 4)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
+					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
 				}
 				{
-					p.SetState(43)
+					p.SetState(25)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -1147,16 +766,673 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 					}
 				}
 				{
-					p.SetState(44)
-					p.expr(5)
+					p.SetState(26)
+					p.expr(6)
 				}
 
 			}
 
 		}
-		p.SetState(49)
+		p.SetState(31)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
+	}
+
+	return localctx
+}
+
+// IParExpressionContext is an interface to support dynamic dispatch.
+type IParExpressionContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsParExpressionContext differentiates from other interfaces.
+	IsParExpressionContext()
+}
+
+type ParExpressionContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyParExpressionContext() *ParExpressionContext {
+	var p = new(ParExpressionContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = RiParserRULE_parExpression
+	return p
+}
+
+func (*ParExpressionContext) IsParExpressionContext() {}
+
+func NewParExpressionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ParExpressionContext {
+	var p = new(ParExpressionContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = RiParserRULE_parExpression
+
+	return p
+}
+
+func (s *ParExpressionContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ParExpressionContext) Expr() IExprContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExprContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExprContext)
+}
+
+func (s *ParExpressionContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ParExpressionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ParExpressionContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitParExpression(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *RiParser) ParExpression() (localctx IParExpressionContext) {
+	this := p
+	_ = this
+
+	localctx = NewParExpressionContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 2, RiParserRULE_parExpression)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(32)
+		p.Match(RiParserT__0)
+	}
+	{
+		p.SetState(33)
+		p.expr(0)
+	}
+	{
+		p.SetState(34)
+		p.Match(RiParserT__1)
+	}
+
+	return localctx
+}
+
+// IStatContext is an interface to support dynamic dispatch.
+type IStatContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsStatContext differentiates from other interfaces.
+	IsStatContext()
+}
+
+type StatContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyStatContext() *StatContext {
+	var p = new(StatContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = RiParserRULE_stat
+	return p
+}
+
+func (*StatContext) IsStatContext() {}
+
+func NewStatContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *StatContext {
+	var p = new(StatContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = RiParserRULE_stat
+
+	return p
+}
+
+func (s *StatContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *StatContext) CopyFrom(ctx *StatContext) {
+	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+}
+
+func (s *StatContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *StatContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+type BlankContext struct {
+	*StatContext
+}
+
+func NewBlankContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *BlankContext {
+	var p = new(BlankContext)
+
+	p.StatContext = NewEmptyStatContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*StatContext))
+
+	return p
+}
+
+func (s *BlankContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *BlankContext) NEWLINE() antlr.TerminalNode {
+	return s.GetToken(RiParserNEWLINE, 0)
+}
+
+func (s *BlankContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitBlank(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+type AssginContext struct {
+	*StatContext
+}
+
+func NewAssginContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *AssginContext {
+	var p = new(AssginContext)
+
+	p.StatContext = NewEmptyStatContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*StatContext))
+
+	return p
+}
+
+func (s *AssginContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *AssginContext) ID() antlr.TerminalNode {
+	return s.GetToken(RiParserID, 0)
+}
+
+func (s *AssginContext) Expr() IExprContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExprContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExprContext)
+}
+
+func (s *AssginContext) NEWLINE() antlr.TerminalNode {
+	return s.GetToken(RiParserNEWLINE, 0)
+}
+
+func (s *AssginContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitAssgin(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+type EchoExprContext struct {
+	*StatContext
+}
+
+func NewEchoExprContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *EchoExprContext {
+	var p = new(EchoExprContext)
+
+	p.StatContext = NewEmptyStatContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*StatContext))
+
+	return p
+}
+
+func (s *EchoExprContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *EchoExprContext) ECHO() antlr.TerminalNode {
+	return s.GetToken(RiParserECHO, 0)
+}
+
+func (s *EchoExprContext) ID() antlr.TerminalNode {
+	return s.GetToken(RiParserID, 0)
+}
+
+func (s *EchoExprContext) NEWLINE() antlr.TerminalNode {
+	return s.GetToken(RiParserNEWLINE, 0)
+}
+
+func (s *EchoExprContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitEchoExpr(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+type IfLogicContext struct {
+	*StatContext
+}
+
+func NewIfLogicContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *IfLogicContext {
+	var p = new(IfLogicContext)
+
+	p.StatContext = NewEmptyStatContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*StatContext))
+
+	return p
+}
+
+func (s *IfLogicContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *IfLogicContext) IF() antlr.TerminalNode {
+	return s.GetToken(RiParserIF, 0)
+}
+
+func (s *IfLogicContext) ParExpression() IParExpressionContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IParExpressionContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IParExpressionContext)
+}
+
+func (s *IfLogicContext) Stat() IStatContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IStatContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IStatContext)
+}
+
+func (s *IfLogicContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitIfLogic(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+type PrintExprContext struct {
+	*StatContext
+}
+
+func NewPrintExprContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *PrintExprContext {
+	var p = new(PrintExprContext)
+
+	p.StatContext = NewEmptyStatContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*StatContext))
+
+	return p
+}
+
+func (s *PrintExprContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *PrintExprContext) Expr() IExprContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExprContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExprContext)
+}
+
+func (s *PrintExprContext) NEWLINE() antlr.TerminalNode {
+	return s.GetToken(RiParserNEWLINE, 0)
+}
+
+func (s *PrintExprContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitPrintExpr(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *RiParser) Stat() (localctx IStatContext) {
+	this := p
+	_ = this
+
+	localctx = NewStatContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 4, RiParserRULE_stat)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.SetState(56)
+	p.GetErrorHandler().Sync(p)
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
+	case 1:
+		localctx = NewEchoExprContext(p, localctx)
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(36)
+			p.Match(RiParserECHO)
+		}
+		{
+			p.SetState(37)
+			p.Match(RiParserT__0)
+		}
+		{
+			p.SetState(38)
+			p.Match(RiParserID)
+		}
+		{
+			p.SetState(39)
+			p.Match(RiParserT__1)
+		}
+		{
+			p.SetState(40)
+			p.Match(RiParserNEWLINE)
+		}
+
+	case 2:
+		localctx = NewIfLogicContext(p, localctx)
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(41)
+			p.Match(RiParserIF)
+		}
+		{
+			p.SetState(42)
+			p.ParExpression()
+		}
+		{
+			p.SetState(43)
+			p.Match(RiParserT__2)
+		}
+		{
+			p.SetState(44)
+			p.Stat()
+		}
+		{
+			p.SetState(45)
+			p.Match(RiParserT__3)
+		}
+
+	case 3:
+		localctx = NewPrintExprContext(p, localctx)
+		p.EnterOuterAlt(localctx, 3)
+		{
+			p.SetState(47)
+			p.expr(0)
+		}
+		{
+			p.SetState(48)
+			p.Match(RiParserNEWLINE)
+		}
+
+	case 4:
+		localctx = NewAssginContext(p, localctx)
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(50)
+			p.Match(RiParserID)
+		}
+		{
+			p.SetState(51)
+			p.Match(RiParserT__4)
+		}
+		{
+			p.SetState(52)
+			p.expr(0)
+		}
+		{
+			p.SetState(53)
+			p.Match(RiParserNEWLINE)
+		}
+
+	case 5:
+		localctx = NewBlankContext(p, localctx)
+		p.EnterOuterAlt(localctx, 5)
+		{
+			p.SetState(55)
+			p.Match(RiParserNEWLINE)
+		}
+
+	}
+
+	return localctx
+}
+
+// IProgContext is an interface to support dynamic dispatch.
+type IProgContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsProgContext differentiates from other interfaces.
+	IsProgContext()
+}
+
+type ProgContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyProgContext() *ProgContext {
+	var p = new(ProgContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = RiParserRULE_prog
+	return p
+}
+
+func (*ProgContext) IsProgContext() {}
+
+func NewProgContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ProgContext {
+	var p = new(ProgContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = RiParserRULE_prog
+
+	return p
+}
+
+func (s *ProgContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ProgContext) AllStat() []IStatContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IStatContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IStatContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IStatContext); ok {
+			tst[i] = t.(IStatContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *ProgContext) Stat(i int) IStatContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IStatContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IStatContext)
+}
+
+func (s *ProgContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ProgContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ProgContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitProg(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *RiParser) Prog() (localctx IProgContext) {
+	this := p
+	_ = this
+
+	localctx = NewProgContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 6, RiParserRULE_prog)
+	var _la int
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	p.SetState(59)
+	p.GetErrorHandler().Sync(p)
+	_la = p.GetTokenStream().LA(1)
+
+	for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&16066) != 0 {
+		{
+			p.SetState(58)
+			p.Stat()
+		}
+
+		p.SetState(61)
+		p.GetErrorHandler().Sync(p)
+		_la = p.GetTokenStream().LA(1)
 	}
 
 	return localctx
@@ -1164,7 +1440,7 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 
 func (p *RiParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
 	switch ruleIndex {
-	case 2:
+	case 0:
 		var t *ExprContext = nil
 		if localctx != nil {
 			t = localctx.(*ExprContext)
@@ -1182,13 +1458,13 @@ func (p *RiParser) Expr_Sempred(localctx antlr.RuleContext, predIndex int) bool 
 
 	switch predIndex {
 	case 0:
-		return p.Precpred(p.GetParserRuleContext(), 6)
+		return p.Precpred(p.GetParserRuleContext(), 7)
 
 	case 1:
-		return p.Precpred(p.GetParserRuleContext(), 5)
+		return p.Precpred(p.GetParserRuleContext(), 6)
 
 	case 2:
-		return p.Precpred(p.GetParserRuleContext(), 4)
+		return p.Precpred(p.GetParserRuleContext(), 5)
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))
