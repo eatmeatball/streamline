@@ -3,10 +3,55 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"os"
+	"ri/gscript"
+	"ri/mathparser"
 	"strconv"
 	"strings"
 )
+
+func antlr4Main() {
+	// Setup the input
+	is := antlr.NewInputStream("1+  1*1-1+2")
+
+	// Create the Lexer
+	lexer := mathparser.NewHelloLexer(is)
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+
+	// Create the Parser
+	p := mathparser.NewHelloParser(stream)
+
+	// Finally parse the expression (by walking the tree)
+	var listener HelloListener
+	antlr.ParseTreeWalkerDefault.Walk(&listener, p.Start())
+
+	fmt.Println(listener.pop())
+}
+
+func oldMain() {
+	// tokens := tokenizer("( add 1  ( subtract 4 100 ))")
+	tokens := gscript.Tokenizer("( add 2 ( subtract 4 2))")
+	fmt.Println()
+	fmt.Println(tokens)
+	fmt.Println(gscript.SimpleParser(tokens))
+}
+
+func newMain() {
+	gscript.InitRuntime(false)
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("gscript")
+	for {
+		fmt.Print("-> ")
+		text, _ := reader.ReadString('\n')
+		root, err := gscript.Parse(text)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			gscript.EvaluateWithRuntime(root, "")
+		}
+	}
+}
 
 func simpleAdd() {
 	reader := bufio.NewReader(os.Stdin)

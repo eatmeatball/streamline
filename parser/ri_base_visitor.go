@@ -8,6 +8,14 @@ type BaseRiVisitor struct {
 	*antlr.BaseParseTreeVisitor
 }
 
+func (v *BaseRiVisitor) VisitProg(ctx *ProgContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseRiVisitor) VisitEchoExpr(ctx *EchoExprContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseRiVisitor) VisitPrintExpr(ctx *PrintExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -24,6 +32,10 @@ func (v *BaseRiVisitor) VisitParens(ctx *ParensContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseRiVisitor) VisitMod(ctx *ModContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseRiVisitor) VisitMulDiv(ctx *MulDivContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -37,9 +49,5 @@ func (v *BaseRiVisitor) VisitId(ctx *IdContext) interface{} {
 }
 
 func (v *BaseRiVisitor) VisitInt(ctx *IntContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseRiVisitor) VisitProg(ctx *ProgContext) interface{} {
 	return v.VisitChildren(ctx)
 }

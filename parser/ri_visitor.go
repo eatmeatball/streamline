@@ -8,6 +8,12 @@ import "github.com/antlr/antlr4/runtime/Go/antlr/v4"
 type RiVisitor interface {
 	antlr.ParseTreeVisitor
 
+	// Visit a parse tree produced by RiParser#prog.
+	VisitProg(ctx *ProgContext) interface{}
+
+	// Visit a parse tree produced by RiParser#echoExpr.
+	VisitEchoExpr(ctx *EchoExprContext) interface{}
+
 	// Visit a parse tree produced by RiParser#printExpr.
 	VisitPrintExpr(ctx *PrintExprContext) interface{}
 
@@ -20,6 +26,9 @@ type RiVisitor interface {
 	// Visit a parse tree produced by RiParser#parens.
 	VisitParens(ctx *ParensContext) interface{}
 
+	// Visit a parse tree produced by RiParser#Mod.
+	VisitMod(ctx *ModContext) interface{}
+
 	// Visit a parse tree produced by RiParser#MulDiv.
 	VisitMulDiv(ctx *MulDivContext) interface{}
 
@@ -31,7 +40,4 @@ type RiVisitor interface {
 
 	// Visit a parse tree produced by RiParser#int.
 	VisitInt(ctx *IntContext) interface{}
-
-	// Visit a parse tree produced by RiParser#prog.
-	VisitProg(ctx *ProgContext) interface{}
 }

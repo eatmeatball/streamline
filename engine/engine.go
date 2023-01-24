@@ -1,4 +1,4 @@
-package core
+package engine
 
 import (
 	"fmt"
@@ -41,21 +41,26 @@ func (v *RiVisitor) VisitTree(tree antlr.Tree) any {
 		return v.VisitParens(ctx)
 	case *parser.IdContext:
 		return v.VisitId(ctx)
+	case *parser.ModContext:
+		return v.VisitMod(ctx)
+	case *parser.EchoExprContext:
+		return v.VisitEchoExpr(ctx)
 	default:
+		fmt.Printf("%T\n", ctx)
 		panic("Unknown context")
 	}
 }
 
 func (v *RiVisitor) VisitProg(ctx *parser.ProgContext) interface{} {
 	for _, child := range ctx.GetChildren() {
-		return v.VisitTree(child)
+		v.VisitTree(child)
 	}
 	return nil
 }
 
 func (v *RiVisitor) VisitPrintExpr(ctx *parser.PrintExprContext) interface{} {
-	value := v.Visit(ctx.Expr())
-	fmt.Println(value)
+	//value := v.Visit(ctx.Expr())
+	//fmt.Println(value)
 	return v.VisitChildren(ctx)
 }
 
@@ -102,4 +107,15 @@ func (v *RiVisitor) VisitId(ctx *parser.IdContext) interface{} {
 
 func (v *RiVisitor) VisitInt(ctx *parser.IntContext) interface{} {
 	return cast.ToInt(ctx.INT().GetText())
+}
+
+func (v *RiVisitor) VisitMod(ctx *parser.ModContext) interface{} {
+	return cast.ToInt(v.Visit(ctx.Expr(0))) % cast.ToInt(v.Visit(ctx.Expr(1)))
+}
+
+func (v *RiVisitor) VisitEchoExpr(ctx *parser.EchoExprContext) interface{} {
+	id := ctx.ID().GetText()
+	data, _ := v.memory[id]
+	fmt.Println(data)
+	return v.VisitChildren(ctx)
 }
