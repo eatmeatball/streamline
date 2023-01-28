@@ -1,15 +1,20 @@
 grammar Ri;
 
+// 赋值
+// 循环
+// 判断
+// 函数
 // Keywords
 ECHO: 'echo';
 IF:   'if';
+FOR: 'for';
 BOOL: 'bool';
-TRUE: 'true';
-FALSE: 'false';
 STRING: 'string';
 FLOAT: 'float';
 ANY: 'any';
-
+FUNC: 'func';
+TRUE: 'true';
+FALSE: 'false';
 
 
 ID: [a-zA-Z]+;
@@ -49,5 +54,7 @@ stat: ECHO '(' ID ')' NEWLINE  # echoExpr
     | ID '=' expr NEWLINE # assgin
     | NEWLINE # blank
     ;
+
+// for [( )]  [{  }]
 
 prog: stat+ ;

@@ -13,6 +13,11 @@ type vt struct {
 	vIntS *[10]int
 }
 
+type vt2 struct {
+	vType int
+	v     any
+}
+
 type RiVisitor struct {
 	parser.BaseRiVisitor
 	memory map[string]any

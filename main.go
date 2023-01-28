@@ -39,7 +39,7 @@ func ri(code string) {
 	p.BuildParseTrees = true
 	tree := p.Prog()
 	v := engine.NewRiVisitor()
-	fmt.Println(code)
+	//fmt.Println(code)
 	result := v.Visit(tree)
 	fmt.Println(result)
 }
