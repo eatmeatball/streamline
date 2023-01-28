@@ -34,44 +34,49 @@ func riParserInit() {
 	staticData := &riParserStaticData
 	staticData.literalNames = []string{
 		"", "'('", "')'", "'{'", "'}'", "'='", "'echo'", "'if'", "'bool'", "'true'",
-		"'false'", "", "", "", "", "'*'", "'/'", "'+'", "'-'", "'%'",
+		"'false'", "'string'", "'float'", "'any'", "", "", "", "", "", "'*'",
+		"'/'", "'+'", "'-'", "'%'",
 	}
 	staticData.symbolicNames = []string{
-		"", "", "", "", "", "", "ECHO", "IF", "BOOL", "TRUE", "FALSE", "ID",
-		"INT", "NEWLINE", "WS", "MUL", "DIV", "ADD", "SUB", "MOD",
+		"", "", "", "", "", "", "ECHO", "IF", "BOOL", "TRUE", "FALSE", "STRING",
+		"FLOAT", "ANY", "ID", "INT", "NEWLINE", "WS", "DECIMAL_FLOAT_LIT", "MUL",
+		"DIV", "ADD", "SUB", "MOD",
 	}
 	staticData.ruleNames = []string{
 		"expr", "parExpression", "stat", "prog",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 19, 64, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1,
+		4, 1, 23, 69, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1,
 		0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 3, 0, 17, 8, 0, 1, 0, 1, 0, 1, 0,
 		1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 5, 0, 28, 8, 0, 10, 0, 12, 0, 31, 9,
 		0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-		2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-		2, 3, 2, 57, 8, 2, 1, 3, 4, 3, 60, 8, 3, 11, 3, 12, 3, 61, 1, 3, 0, 1,
-		0, 4, 0, 2, 4, 6, 0, 3, 1, 0, 9, 10, 1, 0, 15, 16, 1, 0, 17, 18, 70, 0,
-		16, 1, 0, 0, 0, 2, 32, 1, 0, 0, 0, 4, 56, 1, 0, 0, 0, 6, 59, 1, 0, 0, 0,
-		8, 9, 6, 0, -1, 0, 9, 17, 7, 0, 0, 0, 10, 17, 5, 12, 0, 0, 11, 17, 5, 11,
-		0, 0, 12, 13, 5, 1, 0, 0, 13, 14, 3, 0, 0, 0, 14, 15, 5, 2, 0, 0, 15, 17,
-		1, 0, 0, 0, 16, 8, 1, 0, 0, 0, 16, 10, 1, 0, 0, 0, 16, 11, 1, 0, 0, 0,
-		16, 12, 1, 0, 0, 0, 17, 29, 1, 0, 0, 0, 18, 19, 10, 7, 0, 0, 19, 20, 5,
-		19, 0, 0, 20, 28, 3, 0, 0, 8, 21, 22, 10, 6, 0, 0, 22, 23, 7, 1, 0, 0,
-		23, 28, 3, 0, 0, 7, 24, 25, 10, 5, 0, 0, 25, 26, 7, 2, 0, 0, 26, 28, 3,
-		0, 0, 6, 27, 18, 1, 0, 0, 0, 27, 21, 1, 0, 0, 0, 27, 24, 1, 0, 0, 0, 28,
-		31, 1, 0, 0, 0, 29, 27, 1, 0, 0, 0, 29, 30, 1, 0, 0, 0, 30, 1, 1, 0, 0,
-		0, 31, 29, 1, 0, 0, 0, 32, 33, 5, 1, 0, 0, 33, 34, 3, 0, 0, 0, 34, 35,
-		5, 2, 0, 0, 35, 3, 1, 0, 0, 0, 36, 37, 5, 6, 0, 0, 37, 38, 5, 1, 0, 0,
-		38, 39, 5, 11, 0, 0, 39, 40, 5, 2, 0, 0, 40, 57, 5, 13, 0, 0, 41, 42, 5,
-		7, 0, 0, 42, 43, 3, 2, 1, 0, 43, 44, 5, 3, 0, 0, 44, 45, 3, 4, 2, 0, 45,
-		46, 5, 4, 0, 0, 46, 57, 1, 0, 0, 0, 47, 48, 3, 0, 0, 0, 48, 49, 5, 13,
-		0, 0, 49, 57, 1, 0, 0, 0, 50, 51, 5, 11, 0, 0, 51, 52, 5, 5, 0, 0, 52,
-		53, 3, 0, 0, 0, 53, 54, 5, 13, 0, 0, 54, 57, 1, 0, 0, 0, 55, 57, 5, 13,
-		0, 0, 56, 36, 1, 0, 0, 0, 56, 41, 1, 0, 0, 0, 56, 47, 1, 0, 0, 0, 56, 50,
-		1, 0, 0, 0, 56, 55, 1, 0, 0, 0, 57, 5, 1, 0, 0, 0, 58, 60, 3, 4, 2, 0,
-		59, 58, 1, 0, 0, 0, 60, 61, 1, 0, 0, 0, 61, 59, 1, 0, 0, 0, 61, 62, 1,
-		0, 0, 0, 62, 7, 1, 0, 0, 0, 5, 16, 27, 29, 56, 61,
+		2, 1, 2, 3, 2, 46, 8, 2, 1, 2, 3, 2, 49, 8, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 62, 8, 2, 1, 3, 4, 3, 65,
+		8, 3, 11, 3, 12, 3, 66, 1, 3, 0, 1, 0, 4, 0, 2, 4, 6, 0, 3, 1, 0, 9, 10,
+		1, 0, 19, 20, 1, 0, 21, 22, 77, 0, 16, 1, 0, 0, 0, 2, 32, 1, 0, 0, 0, 4,
+		61, 1, 0, 0, 0, 6, 64, 1, 0, 0, 0, 8, 9, 6, 0, -1, 0, 9, 17, 7, 0, 0, 0,
+		10, 17, 5, 15, 0, 0, 11, 17, 5, 14, 0, 0, 12, 13, 5, 1, 0, 0, 13, 14, 3,
+		0, 0, 0, 14, 15, 5, 2, 0, 0, 15, 17, 1, 0, 0, 0, 16, 8, 1, 0, 0, 0, 16,
+		10, 1, 0, 0, 0, 16, 11, 1, 0, 0, 0, 16, 12, 1, 0, 0, 0, 17, 29, 1, 0, 0,
+		0, 18, 19, 10, 7, 0, 0, 19, 20, 5, 23, 0, 0, 20, 28, 3, 0, 0, 8, 21, 22,
+		10, 6, 0, 0, 22, 23, 7, 1, 0, 0, 23, 28, 3, 0, 0, 7, 24, 25, 10, 5, 0,
+		0, 25, 26, 7, 2, 0, 0, 26, 28, 3, 0, 0, 6, 27, 18, 1, 0, 0, 0, 27, 21,
+		1, 0, 0, 0, 27, 24, 1, 0, 0, 0, 28, 31, 1, 0, 0, 0, 29, 27, 1, 0, 0, 0,
+		29, 30, 1, 0, 0, 0, 30, 1, 1, 0, 0, 0, 31, 29, 1, 0, 0, 0, 32, 33, 5, 1,
+		0, 0, 33, 34, 3, 0, 0, 0, 34, 35, 5, 2, 0, 0, 35, 3, 1, 0, 0, 0, 36, 37,
+		5, 6, 0, 0, 37, 38, 5, 1, 0, 0, 38, 39, 5, 14, 0, 0, 39, 40, 5, 2, 0, 0,
+		40, 62, 5, 16, 0, 0, 41, 42, 5, 7, 0, 0, 42, 43, 3, 2, 1, 0, 43, 45, 5,
+		3, 0, 0, 44, 46, 5, 16, 0, 0, 45, 44, 1, 0, 0, 0, 45, 46, 1, 0, 0, 0, 46,
+		48, 1, 0, 0, 0, 47, 49, 3, 4, 2, 0, 48, 47, 1, 0, 0, 0, 48, 49, 1, 0, 0,
+		0, 49, 50, 1, 0, 0, 0, 50, 51, 5, 4, 0, 0, 51, 62, 1, 0, 0, 0, 52, 53,
+		3, 0, 0, 0, 53, 54, 5, 16, 0, 0, 54, 62, 1, 0, 0, 0, 55, 56, 5, 14, 0,
+		0, 56, 57, 5, 5, 0, 0, 57, 58, 3, 0, 0, 0, 58, 59, 5, 16, 0, 0, 59, 62,
+		1, 0, 0, 0, 60, 62, 5, 16, 0, 0, 61, 36, 1, 0, 0, 0, 61, 41, 1, 0, 0, 0,
+		61, 52, 1, 0, 0, 0, 61, 55, 1, 0, 0, 0, 61, 60, 1, 0, 0, 0, 62, 5, 1, 0,
+		0, 0, 63, 65, 3, 4, 2, 0, 64, 63, 1, 0, 0, 0, 65, 66, 1, 0, 0, 0, 66, 64,
+		1, 0, 0, 0, 66, 67, 1, 0, 0, 0, 67, 7, 1, 0, 0, 0, 7, 16, 27, 29, 45, 48,
+		61, 66,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -109,26 +114,30 @@ func NewRiParser(input antlr.TokenStream) *RiParser {
 
 // RiParser tokens.
 const (
-	RiParserEOF     = antlr.TokenEOF
-	RiParserT__0    = 1
-	RiParserT__1    = 2
-	RiParserT__2    = 3
-	RiParserT__3    = 4
-	RiParserT__4    = 5
-	RiParserECHO    = 6
-	RiParserIF      = 7
-	RiParserBOOL    = 8
-	RiParserTRUE    = 9
-	RiParserFALSE   = 10
-	RiParserID      = 11
-	RiParserINT     = 12
-	RiParserNEWLINE = 13
-	RiParserWS      = 14
-	RiParserMUL     = 15
-	RiParserDIV     = 16
-	RiParserADD     = 17
-	RiParserSUB     = 18
-	RiParserMOD     = 19
+	RiParserEOF               = antlr.TokenEOF
+	RiParserT__0              = 1
+	RiParserT__1              = 2
+	RiParserT__2              = 3
+	RiParserT__3              = 4
+	RiParserT__4              = 5
+	RiParserECHO              = 6
+	RiParserIF                = 7
+	RiParserBOOL              = 8
+	RiParserTRUE              = 9
+	RiParserFALSE             = 10
+	RiParserSTRING            = 11
+	RiParserFLOAT             = 12
+	RiParserANY               = 13
+	RiParserID                = 14
+	RiParserINT               = 15
+	RiParserNEWLINE           = 16
+	RiParserWS                = 17
+	RiParserDECIMAL_FLOAT_LIT = 18
+	RiParserMUL               = 19
+	RiParserDIV               = 20
+	RiParserADD               = 21
+	RiParserSUB               = 22
+	RiParserMOD               = 23
 )
 
 // RiParser rules.
@@ -1105,6 +1114,10 @@ func (s *IfLogicContext) ParExpression() IParExpressionContext {
 	return t.(IParExpressionContext)
 }
 
+func (s *IfLogicContext) NEWLINE() antlr.TerminalNode {
+	return s.GetToken(RiParserNEWLINE, 0)
+}
+
 func (s *IfLogicContext) Stat() IStatContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
@@ -1185,6 +1198,7 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 
 	localctx = NewStatContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, RiParserRULE_stat)
+	var _la int
 
 	defer func() {
 		p.ExitRule()
@@ -1202,9 +1216,9 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 		}
 	}()
 
-	p.SetState(56)
+	p.SetState(61)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewEchoExprContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
@@ -1244,38 +1258,35 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 			p.SetState(43)
 			p.Match(RiParserT__2)
 		}
-		{
-			p.SetState(44)
-			p.Stat()
+		p.SetState(45)
+		p.GetErrorHandler().Sync(p)
+
+		if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) == 1 {
+			{
+				p.SetState(44)
+				p.Match(RiParserNEWLINE)
+			}
+
+		}
+		p.SetState(48)
+		p.GetErrorHandler().Sync(p)
+		_la = p.GetTokenStream().LA(1)
+
+		if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&116418) != 0 {
+			{
+				p.SetState(47)
+				p.Stat()
+			}
+
 		}
 		{
-			p.SetState(45)
+			p.SetState(50)
 			p.Match(RiParserT__3)
 		}
 
 	case 3:
 		localctx = NewPrintExprContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
-		{
-			p.SetState(47)
-			p.expr(0)
-		}
-		{
-			p.SetState(48)
-			p.Match(RiParserNEWLINE)
-		}
-
-	case 4:
-		localctx = NewAssginContext(p, localctx)
-		p.EnterOuterAlt(localctx, 4)
-		{
-			p.SetState(50)
-			p.Match(RiParserID)
-		}
-		{
-			p.SetState(51)
-			p.Match(RiParserT__4)
-		}
 		{
 			p.SetState(52)
 			p.expr(0)
@@ -1285,11 +1296,31 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 			p.Match(RiParserNEWLINE)
 		}
 
+	case 4:
+		localctx = NewAssginContext(p, localctx)
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(55)
+			p.Match(RiParserID)
+		}
+		{
+			p.SetState(56)
+			p.Match(RiParserT__4)
+		}
+		{
+			p.SetState(57)
+			p.expr(0)
+		}
+		{
+			p.SetState(58)
+			p.Match(RiParserNEWLINE)
+		}
+
 	case 5:
 		localctx = NewBlankContext(p, localctx)
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(55)
+			p.SetState(60)
 			p.Match(RiParserNEWLINE)
 		}
 
@@ -1420,17 +1451,17 @@ func (p *RiParser) Prog() (localctx IProgContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(59)
+	p.SetState(64)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&16066) != 0 {
+	for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&116418) != 0 {
 		{
-			p.SetState(58)
+			p.SetState(63)
 			p.Stat()
 		}
 
-		p.SetState(61)
+		p.SetState(66)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}

@@ -1,0 +1,11 @@
+a=1+1+1
+b=13%10
+c=a*b
+d=true
+f=true
+if(d) {
+ a=1+1
+}
+if(f){
+    echo(c)
+}

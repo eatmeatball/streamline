@@ -6,12 +6,21 @@ IF:   'if';
 BOOL: 'bool';
 TRUE: 'true';
 FALSE: 'false';
+STRING: 'string';
+FLOAT: 'float';
+ANY: 'any';
+
 
 
 ID: [a-zA-Z]+;
 INT: [0-9]+;
 NEWLINE:'\r'?'\n';
 WS:[ \t]+->skip;
+fragment DECIMALS
+    : [0-9] ('_'? [0-9])*
+    ;
+DECIMAL_FLOAT_LIT : DECIMALS ('.' DECIMALS?);
+
 
 // op
 MUL: '*';
@@ -35,7 +44,7 @@ parExpression
     ;
 
 stat: ECHO '(' ID ')' NEWLINE  # echoExpr
-    | IF parExpression '{' stat '}' # ifLogic
+    | IF parExpression '{' NEWLINE? stat? '}' # ifLogic
     | expr NEWLINE # printExpr
     | ID '=' expr NEWLINE # assgin
     | NEWLINE # blank
