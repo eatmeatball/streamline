@@ -9,3 +9,4 @@ if(d) {
 if(f){
     echo(c)
 }
+echo(c)

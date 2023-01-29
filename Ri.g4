@@ -48,10 +48,13 @@ parExpression
     : '(' expr ')'
     ;
 
+ifstat: stat+;
+
 stat: ECHO '(' ID ')' NEWLINE  # echoExpr
-    | IF parExpression '{' NEWLINE? stat? '}' # ifLogic
+    | IF parExpression '{' ifstat '}' # ifLogic
     | expr NEWLINE # printExpr
     | ID '=' expr NEWLINE # assgin
+    | FOR '(' ';' ';' ')' '{'  stat+ '}' # forLogic
     | NEWLINE # blank
     ;
 

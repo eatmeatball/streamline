@@ -40,6 +40,10 @@ func (v *BaseRiVisitor) VisitParExpression(ctx *ParExpressionContext) interface{
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseRiVisitor) VisitIfstat(ctx *IfstatContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseRiVisitor) VisitEchoExpr(ctx *EchoExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -53,6 +57,10 @@ func (v *BaseRiVisitor) VisitPrintExpr(ctx *PrintExprContext) interface{} {
 }
 
 func (v *BaseRiVisitor) VisitAssgin(ctx *AssginContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseRiVisitor) VisitForLogic(ctx *ForLogicContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

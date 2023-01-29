@@ -33,50 +33,55 @@ var riParserStaticData struct {
 func riParserInit() {
 	staticData := &riParserStaticData
 	staticData.literalNames = []string{
-		"", "'('", "')'", "'{'", "'}'", "'='", "'echo'", "'if'", "'bool'", "'true'",
-		"'false'", "'string'", "'float'", "'any'", "", "", "", "", "", "'*'",
-		"'/'", "'+'", "'-'", "'%'",
+		"", "'('", "')'", "'{'", "'}'", "'='", "';'", "'echo'", "'if'", "'for'",
+		"'bool'", "'string'", "'float'", "'any'", "'func'", "'true'", "'false'",
+		"", "", "", "", "", "'*'", "'/'", "'+'", "'-'", "'%'",
 	}
 	staticData.symbolicNames = []string{
-		"", "", "", "", "", "", "ECHO", "IF", "BOOL", "TRUE", "FALSE", "STRING",
-		"FLOAT", "ANY", "ID", "INT", "NEWLINE", "WS", "DECIMAL_FLOAT_LIT", "MUL",
-		"DIV", "ADD", "SUB", "MOD",
+		"", "", "", "", "", "", "", "ECHO", "IF", "FOR", "BOOL", "STRING", "FLOAT",
+		"ANY", "FUNC", "TRUE", "FALSE", "ID", "INT", "NEWLINE", "WS", "DECIMAL_FLOAT_LIT",
+		"MUL", "DIV", "ADD", "SUB", "MOD",
 	}
 	staticData.ruleNames = []string{
-		"expr", "parExpression", "stat", "prog",
+		"expr", "parExpression", "ifstat", "stat", "prog",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 23, 69, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1,
-		0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 3, 0, 17, 8, 0, 1, 0, 1, 0, 1, 0,
-		1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 5, 0, 28, 8, 0, 10, 0, 12, 0, 31, 9,
-		0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-		2, 1, 2, 3, 2, 46, 8, 2, 1, 2, 3, 2, 49, 8, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 62, 8, 2, 1, 3, 4, 3, 65,
-		8, 3, 11, 3, 12, 3, 66, 1, 3, 0, 1, 0, 4, 0, 2, 4, 6, 0, 3, 1, 0, 9, 10,
-		1, 0, 19, 20, 1, 0, 21, 22, 77, 0, 16, 1, 0, 0, 0, 2, 32, 1, 0, 0, 0, 4,
-		61, 1, 0, 0, 0, 6, 64, 1, 0, 0, 0, 8, 9, 6, 0, -1, 0, 9, 17, 7, 0, 0, 0,
-		10, 17, 5, 15, 0, 0, 11, 17, 5, 14, 0, 0, 12, 13, 5, 1, 0, 0, 13, 14, 3,
-		0, 0, 0, 14, 15, 5, 2, 0, 0, 15, 17, 1, 0, 0, 0, 16, 8, 1, 0, 0, 0, 16,
-		10, 1, 0, 0, 0, 16, 11, 1, 0, 0, 0, 16, 12, 1, 0, 0, 0, 17, 29, 1, 0, 0,
-		0, 18, 19, 10, 7, 0, 0, 19, 20, 5, 23, 0, 0, 20, 28, 3, 0, 0, 8, 21, 22,
-		10, 6, 0, 0, 22, 23, 7, 1, 0, 0, 23, 28, 3, 0, 0, 7, 24, 25, 10, 5, 0,
-		0, 25, 26, 7, 2, 0, 0, 26, 28, 3, 0, 0, 6, 27, 18, 1, 0, 0, 0, 27, 21,
-		1, 0, 0, 0, 27, 24, 1, 0, 0, 0, 28, 31, 1, 0, 0, 0, 29, 27, 1, 0, 0, 0,
-		29, 30, 1, 0, 0, 0, 30, 1, 1, 0, 0, 0, 31, 29, 1, 0, 0, 0, 32, 33, 5, 1,
-		0, 0, 33, 34, 3, 0, 0, 0, 34, 35, 5, 2, 0, 0, 35, 3, 1, 0, 0, 0, 36, 37,
-		5, 6, 0, 0, 37, 38, 5, 1, 0, 0, 38, 39, 5, 14, 0, 0, 39, 40, 5, 2, 0, 0,
-		40, 62, 5, 16, 0, 0, 41, 42, 5, 7, 0, 0, 42, 43, 3, 2, 1, 0, 43, 45, 5,
-		3, 0, 0, 44, 46, 5, 16, 0, 0, 45, 44, 1, 0, 0, 0, 45, 46, 1, 0, 0, 0, 46,
-		48, 1, 0, 0, 0, 47, 49, 3, 4, 2, 0, 48, 47, 1, 0, 0, 0, 48, 49, 1, 0, 0,
-		0, 49, 50, 1, 0, 0, 0, 50, 51, 5, 4, 0, 0, 51, 62, 1, 0, 0, 0, 52, 53,
-		3, 0, 0, 0, 53, 54, 5, 16, 0, 0, 54, 62, 1, 0, 0, 0, 55, 56, 5, 14, 0,
-		0, 56, 57, 5, 5, 0, 0, 57, 58, 3, 0, 0, 0, 58, 59, 5, 16, 0, 0, 59, 62,
-		1, 0, 0, 0, 60, 62, 5, 16, 0, 0, 61, 36, 1, 0, 0, 0, 61, 41, 1, 0, 0, 0,
-		61, 52, 1, 0, 0, 0, 61, 55, 1, 0, 0, 0, 61, 60, 1, 0, 0, 0, 62, 5, 1, 0,
-		0, 0, 63, 65, 3, 4, 2, 0, 64, 63, 1, 0, 0, 0, 65, 66, 1, 0, 0, 0, 66, 64,
-		1, 0, 0, 0, 66, 67, 1, 0, 0, 0, 67, 7, 1, 0, 0, 0, 7, 16, 27, 29, 45, 48,
-		61, 66,
+		4, 1, 26, 84, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 3, 0, 19, 8, 0, 1, 0,
+		1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 5, 0, 30, 8, 0, 10, 0,
+		12, 0, 33, 9, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 4, 2, 40, 8, 2, 11, 2, 12,
+		2, 41, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3,
+		1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3,
+		1, 3, 1, 3, 1, 3, 4, 3, 70, 8, 3, 11, 3, 12, 3, 71, 1, 3, 1, 3, 1, 3, 3,
+		3, 77, 8, 3, 1, 4, 4, 4, 80, 8, 4, 11, 4, 12, 4, 81, 1, 4, 0, 1, 0, 5,
+		0, 2, 4, 6, 8, 0, 3, 1, 0, 15, 16, 1, 0, 22, 23, 1, 0, 24, 25, 92, 0, 18,
+		1, 0, 0, 0, 2, 34, 1, 0, 0, 0, 4, 39, 1, 0, 0, 0, 6, 76, 1, 0, 0, 0, 8,
+		79, 1, 0, 0, 0, 10, 11, 6, 0, -1, 0, 11, 19, 7, 0, 0, 0, 12, 19, 5, 18,
+		0, 0, 13, 19, 5, 17, 0, 0, 14, 15, 5, 1, 0, 0, 15, 16, 3, 0, 0, 0, 16,
+		17, 5, 2, 0, 0, 17, 19, 1, 0, 0, 0, 18, 10, 1, 0, 0, 0, 18, 12, 1, 0, 0,
+		0, 18, 13, 1, 0, 0, 0, 18, 14, 1, 0, 0, 0, 19, 31, 1, 0, 0, 0, 20, 21,
+		10, 7, 0, 0, 21, 22, 5, 26, 0, 0, 22, 30, 3, 0, 0, 8, 23, 24, 10, 6, 0,
+		0, 24, 25, 7, 1, 0, 0, 25, 30, 3, 0, 0, 7, 26, 27, 10, 5, 0, 0, 27, 28,
+		7, 2, 0, 0, 28, 30, 3, 0, 0, 6, 29, 20, 1, 0, 0, 0, 29, 23, 1, 0, 0, 0,
+		29, 26, 1, 0, 0, 0, 30, 33, 1, 0, 0, 0, 31, 29, 1, 0, 0, 0, 31, 32, 1,
+		0, 0, 0, 32, 1, 1, 0, 0, 0, 33, 31, 1, 0, 0, 0, 34, 35, 5, 1, 0, 0, 35,
+		36, 3, 0, 0, 0, 36, 37, 5, 2, 0, 0, 37, 3, 1, 0, 0, 0, 38, 40, 3, 6, 3,
+		0, 39, 38, 1, 0, 0, 0, 40, 41, 1, 0, 0, 0, 41, 39, 1, 0, 0, 0, 41, 42,
+		1, 0, 0, 0, 42, 5, 1, 0, 0, 0, 43, 44, 5, 7, 0, 0, 44, 45, 5, 1, 0, 0,
+		45, 46, 5, 17, 0, 0, 46, 47, 5, 2, 0, 0, 47, 77, 5, 19, 0, 0, 48, 49, 5,
+		8, 0, 0, 49, 50, 3, 2, 1, 0, 50, 51, 5, 3, 0, 0, 51, 52, 3, 4, 2, 0, 52,
+		53, 5, 4, 0, 0, 53, 77, 1, 0, 0, 0, 54, 55, 3, 0, 0, 0, 55, 56, 5, 19,
+		0, 0, 56, 77, 1, 0, 0, 0, 57, 58, 5, 17, 0, 0, 58, 59, 5, 5, 0, 0, 59,
+		60, 3, 0, 0, 0, 60, 61, 5, 19, 0, 0, 61, 77, 1, 0, 0, 0, 62, 63, 5, 9,
+		0, 0, 63, 64, 5, 1, 0, 0, 64, 65, 5, 6, 0, 0, 65, 66, 5, 6, 0, 0, 66, 67,
+		5, 2, 0, 0, 67, 69, 5, 3, 0, 0, 68, 70, 3, 6, 3, 0, 69, 68, 1, 0, 0, 0,
+		70, 71, 1, 0, 0, 0, 71, 69, 1, 0, 0, 0, 71, 72, 1, 0, 0, 0, 72, 73, 1,
+		0, 0, 0, 73, 74, 5, 4, 0, 0, 74, 77, 1, 0, 0, 0, 75, 77, 5, 19, 0, 0, 76,
+		43, 1, 0, 0, 0, 76, 48, 1, 0, 0, 0, 76, 54, 1, 0, 0, 0, 76, 57, 1, 0, 0,
+		0, 76, 62, 1, 0, 0, 0, 76, 75, 1, 0, 0, 0, 77, 7, 1, 0, 0, 0, 78, 80, 3,
+		6, 3, 0, 79, 78, 1, 0, 0, 0, 80, 81, 1, 0, 0, 0, 81, 79, 1, 0, 0, 0, 81,
+		82, 1, 0, 0, 0, 82, 9, 1, 0, 0, 0, 7, 18, 29, 31, 41, 71, 76, 81,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -120,32 +125,36 @@ const (
 	RiParserT__2              = 3
 	RiParserT__3              = 4
 	RiParserT__4              = 5
-	RiParserECHO              = 6
-	RiParserIF                = 7
-	RiParserBOOL              = 8
-	RiParserTRUE              = 9
-	RiParserFALSE             = 10
+	RiParserT__5              = 6
+	RiParserECHO              = 7
+	RiParserIF                = 8
+	RiParserFOR               = 9
+	RiParserBOOL              = 10
 	RiParserSTRING            = 11
 	RiParserFLOAT             = 12
 	RiParserANY               = 13
-	RiParserID                = 14
-	RiParserINT               = 15
-	RiParserNEWLINE           = 16
-	RiParserWS                = 17
-	RiParserDECIMAL_FLOAT_LIT = 18
-	RiParserMUL               = 19
-	RiParserDIV               = 20
-	RiParserADD               = 21
-	RiParserSUB               = 22
-	RiParserMOD               = 23
+	RiParserFUNC              = 14
+	RiParserTRUE              = 15
+	RiParserFALSE             = 16
+	RiParserID                = 17
+	RiParserINT               = 18
+	RiParserNEWLINE           = 19
+	RiParserWS                = 20
+	RiParserDECIMAL_FLOAT_LIT = 21
+	RiParserMUL               = 22
+	RiParserDIV               = 23
+	RiParserADD               = 24
+	RiParserSUB               = 25
+	RiParserMOD               = 26
 )
 
 // RiParser rules.
 const (
 	RiParserRULE_expr          = 0
 	RiParserRULE_parExpression = 1
-	RiParserRULE_stat          = 2
-	RiParserRULE_prog          = 3
+	RiParserRULE_ifstat        = 2
+	RiParserRULE_stat          = 3
+	RiParserRULE_prog          = 4
 )
 
 // IExprContext is an interface to support dynamic dispatch.
@@ -620,7 +629,7 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(16)
+	p.SetState(18)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
@@ -630,7 +639,7 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 		_prevctx = localctx
 
 		{
-			p.SetState(9)
+			p.SetState(11)
 
 			var _lt = p.GetTokenStream().LT(1)
 
@@ -653,7 +662,7 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(10)
+			p.SetState(12)
 			p.Match(RiParserINT)
 		}
 
@@ -662,7 +671,7 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(11)
+			p.SetState(13)
 			p.Match(RiParserID)
 		}
 
@@ -671,15 +680,15 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(12)
+			p.SetState(14)
 			p.Match(RiParserT__0)
 		}
 		{
-			p.SetState(13)
+			p.SetState(15)
 			p.expr(0)
 		}
 		{
-			p.SetState(14)
+			p.SetState(16)
 			p.Match(RiParserT__1)
 		}
 
@@ -687,7 +696,7 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(29)
+	p.SetState(31)
 	p.GetErrorHandler().Sync(p)
 	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 
@@ -697,36 +706,36 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 				p.TriggerExitRuleEvent()
 			}
 			_prevctx = localctx
-			p.SetState(27)
+			p.SetState(29)
 			p.GetErrorHandler().Sync(p)
 			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewModContext(p, NewExprContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, RiParserRULE_expr)
-				p.SetState(18)
+				p.SetState(20)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 7)) {
 					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 7)", ""))
 				}
 				{
-					p.SetState(19)
+					p.SetState(21)
 					p.Match(RiParserMOD)
 				}
 				{
-					p.SetState(20)
+					p.SetState(22)
 					p.expr(8)
 				}
 
 			case 2:
 				localctx = NewMulDivContext(p, NewExprContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, RiParserRULE_expr)
-				p.SetState(21)
+				p.SetState(23)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 6)) {
 					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 6)", ""))
 				}
 				{
-					p.SetState(22)
+					p.SetState(24)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -744,20 +753,20 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 					}
 				}
 				{
-					p.SetState(23)
+					p.SetState(25)
 					p.expr(7)
 				}
 
 			case 3:
 				localctx = NewAddSubContext(p, NewExprContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, RiParserRULE_expr)
-				p.SetState(24)
+				p.SetState(26)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
 					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
 				}
 				{
-					p.SetState(25)
+					p.SetState(27)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -775,14 +784,14 @@ func (p *RiParser) expr(_p int) (localctx IExprContext) {
 					}
 				}
 				{
-					p.SetState(26)
+					p.SetState(28)
 					p.expr(6)
 				}
 
 			}
 
 		}
-		p.SetState(31)
+		p.SetState(33)
 		p.GetErrorHandler().Sync(p)
 		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 	}
@@ -887,16 +896,156 @@ func (p *RiParser) ParExpression() (localctx IParExpressionContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(32)
+		p.SetState(34)
 		p.Match(RiParserT__0)
 	}
 	{
-		p.SetState(33)
+		p.SetState(35)
 		p.expr(0)
 	}
 	{
-		p.SetState(34)
+		p.SetState(36)
 		p.Match(RiParserT__1)
+	}
+
+	return localctx
+}
+
+// IIfstatContext is an interface to support dynamic dispatch.
+type IIfstatContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsIfstatContext differentiates from other interfaces.
+	IsIfstatContext()
+}
+
+type IfstatContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyIfstatContext() *IfstatContext {
+	var p = new(IfstatContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = RiParserRULE_ifstat
+	return p
+}
+
+func (*IfstatContext) IsIfstatContext() {}
+
+func NewIfstatContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *IfstatContext {
+	var p = new(IfstatContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = RiParserRULE_ifstat
+
+	return p
+}
+
+func (s *IfstatContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *IfstatContext) AllStat() []IStatContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IStatContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IStatContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IStatContext); ok {
+			tst[i] = t.(IStatContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *IfstatContext) Stat(i int) IStatContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IStatContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IStatContext)
+}
+
+func (s *IfstatContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *IfstatContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *IfstatContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitIfstat(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *RiParser) Ifstat() (localctx IIfstatContext) {
+	this := p
+	_ = this
+
+	localctx = NewIfstatContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 4, RiParserRULE_ifstat)
+	var _la int
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	p.SetState(39)
+	p.GetErrorHandler().Sync(p)
+	_la = p.GetTokenStream().LA(1)
+
+	for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1016706) != 0 {
+		{
+			p.SetState(38)
+			p.Stat()
+		}
+
+		p.SetState(41)
+		p.GetErrorHandler().Sync(p)
+		_la = p.GetTokenStream().LA(1)
 	}
 
 	return localctx
@@ -950,6 +1099,79 @@ func (s *StatContext) GetRuleContext() antlr.RuleContext {
 
 func (s *StatContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+type ForLogicContext struct {
+	*StatContext
+}
+
+func NewForLogicContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ForLogicContext {
+	var p = new(ForLogicContext)
+
+	p.StatContext = NewEmptyStatContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*StatContext))
+
+	return p
+}
+
+func (s *ForLogicContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ForLogicContext) FOR() antlr.TerminalNode {
+	return s.GetToken(RiParserFOR, 0)
+}
+
+func (s *ForLogicContext) AllStat() []IStatContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IStatContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IStatContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IStatContext); ok {
+			tst[i] = t.(IStatContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *ForLogicContext) Stat(i int) IStatContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IStatContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IStatContext)
+}
+
+func (s *ForLogicContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case RiVisitor:
+		return t.VisitForLogic(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
 }
 
 type BlankContext struct {
@@ -1114,14 +1336,10 @@ func (s *IfLogicContext) ParExpression() IParExpressionContext {
 	return t.(IParExpressionContext)
 }
 
-func (s *IfLogicContext) NEWLINE() antlr.TerminalNode {
-	return s.GetToken(RiParserNEWLINE, 0)
-}
-
-func (s *IfLogicContext) Stat() IStatContext {
+func (s *IfLogicContext) Ifstat() IIfstatContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IStatContext); ok {
+		if _, ok := ctx.(IIfstatContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1131,7 +1349,7 @@ func (s *IfLogicContext) Stat() IStatContext {
 		return nil
 	}
 
-	return t.(IStatContext)
+	return t.(IIfstatContext)
 }
 
 func (s *IfLogicContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
@@ -1197,7 +1415,7 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 	_ = this
 
 	localctx = NewStatContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 4, RiParserRULE_stat)
+	p.EnterRule(localctx, 6, RiParserRULE_stat)
 	var _la int
 
 	defer func() {
@@ -1216,30 +1434,30 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 		}
 	}()
 
-	p.SetState(61)
+	p.SetState(76)
 	p.GetErrorHandler().Sync(p)
 	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewEchoExprContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(36)
+			p.SetState(43)
 			p.Match(RiParserECHO)
 		}
 		{
-			p.SetState(37)
+			p.SetState(44)
 			p.Match(RiParserT__0)
 		}
 		{
-			p.SetState(38)
+			p.SetState(45)
 			p.Match(RiParserID)
 		}
 		{
-			p.SetState(39)
+			p.SetState(46)
 			p.Match(RiParserT__1)
 		}
 		{
-			p.SetState(40)
+			p.SetState(47)
 			p.Match(RiParserNEWLINE)
 		}
 
@@ -1247,40 +1465,23 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 		localctx = NewIfLogicContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(41)
+			p.SetState(48)
 			p.Match(RiParserIF)
 		}
 		{
-			p.SetState(42)
+			p.SetState(49)
 			p.ParExpression()
 		}
 		{
-			p.SetState(43)
+			p.SetState(50)
 			p.Match(RiParserT__2)
 		}
-		p.SetState(45)
-		p.GetErrorHandler().Sync(p)
-
-		if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) == 1 {
-			{
-				p.SetState(44)
-				p.Match(RiParserNEWLINE)
-			}
-
-		}
-		p.SetState(48)
-		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
-
-		if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&116418) != 0 {
-			{
-				p.SetState(47)
-				p.Stat()
-			}
-
+		{
+			p.SetState(51)
+			p.Ifstat()
 		}
 		{
-			p.SetState(50)
+			p.SetState(52)
 			p.Match(RiParserT__3)
 		}
 
@@ -1288,11 +1489,11 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 		localctx = NewPrintExprContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(52)
+			p.SetState(54)
 			p.expr(0)
 		}
 		{
-			p.SetState(53)
+			p.SetState(55)
 			p.Match(RiParserNEWLINE)
 		}
 
@@ -1300,27 +1501,73 @@ func (p *RiParser) Stat() (localctx IStatContext) {
 		localctx = NewAssginContext(p, localctx)
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(55)
+			p.SetState(57)
 			p.Match(RiParserID)
 		}
 		{
-			p.SetState(56)
+			p.SetState(58)
 			p.Match(RiParserT__4)
 		}
 		{
-			p.SetState(57)
+			p.SetState(59)
 			p.expr(0)
 		}
 		{
-			p.SetState(58)
+			p.SetState(60)
 			p.Match(RiParserNEWLINE)
 		}
 
 	case 5:
-		localctx = NewBlankContext(p, localctx)
+		localctx = NewForLogicContext(p, localctx)
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(60)
+			p.SetState(62)
+			p.Match(RiParserFOR)
+		}
+		{
+			p.SetState(63)
+			p.Match(RiParserT__0)
+		}
+		{
+			p.SetState(64)
+			p.Match(RiParserT__5)
+		}
+		{
+			p.SetState(65)
+			p.Match(RiParserT__5)
+		}
+		{
+			p.SetState(66)
+			p.Match(RiParserT__1)
+		}
+		{
+			p.SetState(67)
+			p.Match(RiParserT__2)
+		}
+		p.SetState(69)
+		p.GetErrorHandler().Sync(p)
+		_la = p.GetTokenStream().LA(1)
+
+		for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1016706) != 0 {
+			{
+				p.SetState(68)
+				p.Stat()
+			}
+
+			p.SetState(71)
+			p.GetErrorHandler().Sync(p)
+			_la = p.GetTokenStream().LA(1)
+		}
+		{
+			p.SetState(73)
+			p.Match(RiParserT__3)
+		}
+
+	case 6:
+		localctx = NewBlankContext(p, localctx)
+		p.EnterOuterAlt(localctx, 6)
+		{
+			p.SetState(75)
 			p.Match(RiParserNEWLINE)
 		}
 
@@ -1431,7 +1678,7 @@ func (p *RiParser) Prog() (localctx IProgContext) {
 	_ = this
 
 	localctx = NewProgContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, RiParserRULE_prog)
+	p.EnterRule(localctx, 8, RiParserRULE_prog)
 	var _la int
 
 	defer func() {
@@ -1451,17 +1698,17 @@ func (p *RiParser) Prog() (localctx IProgContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(64)
+	p.SetState(79)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&116418) != 0 {
+	for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1016706) != 0 {
 		{
-			p.SetState(63)
+			p.SetState(78)
 			p.Stat()
 		}
 
-		p.SetState(66)
+		p.SetState(81)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}

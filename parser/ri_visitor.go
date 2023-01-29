@@ -32,6 +32,9 @@ type RiVisitor interface {
 	// Visit a parse tree produced by RiParser#parExpression.
 	VisitParExpression(ctx *ParExpressionContext) interface{}
 
+	// Visit a parse tree produced by RiParser#ifstat.
+	VisitIfstat(ctx *IfstatContext) interface{}
+
 	// Visit a parse tree produced by RiParser#echoExpr.
 	VisitEchoExpr(ctx *EchoExprContext) interface{}
 
@@ -43,6 +46,9 @@ type RiVisitor interface {
 
 	// Visit a parse tree produced by RiParser#assgin.
 	VisitAssgin(ctx *AssginContext) interface{}
+
+	// Visit a parse tree produced by RiParser#forLogic.
+	VisitForLogic(ctx *ForLogicContext) interface{}
 
 	// Visit a parse tree produced by RiParser#blank.
 	VisitBlank(ctx *BlankContext) interface{}

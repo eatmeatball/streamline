@@ -153,7 +153,9 @@ func (v *RiVisitor) VisitIfLogic(ctx *parser.IfLogicContext) interface{} {
 		condition = ret.(bool)
 	}
 	if condition {
-		v.Visit(ctx.Stat())
+		for _, child := range ctx.Ifstat().GetChildren() {
+			v.VisitTree(child)
+		}
 	}
 	return nil
 }
