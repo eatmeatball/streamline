@@ -5,6 +5,7 @@ grammar Ri;
 // 判断
 // 函数
 // Keywords
+IMPORT: 'import';
 ECHO: 'echo';
 IF:   'if';
 FOR: 'for';
@@ -54,7 +55,7 @@ stat: ECHO '(' ID ')' NEWLINE  # echoExpr
     | IF parExpression '{' ifstat '}' # ifLogic
     | expr NEWLINE # printExpr
     | ID '=' expr NEWLINE # assgin
-    | FOR '(' ';' ';' ')' '{'  stat+ '}' # forLogic
+    | FOR '(' expr? ';' expr? ';' expr? ')' '{'  stat+ '}' # forLogic
     | NEWLINE # blank
     ;
 
