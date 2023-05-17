@@ -1,5 +1,9 @@
 grammar Ri;
 
+// 保留关键字
+//import, fragment, lexer, parser, grammar, returns,
+//locals, throws, catch, finally, mode, options, tokens
+// target 1
 // 赋值
 // 循环
 // 判断

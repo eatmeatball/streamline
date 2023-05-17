@@ -24,10 +24,7 @@ func main() {
 		}
 		ri(string(file))
 	}
-	//antlr4Main()
-	//newMain()
-	//simpleAdd()
-	//oldMain()
+	fmt.Println("bye")
 }
 
 func ri(code string) {
@@ -39,7 +36,6 @@ func ri(code string) {
 	p.BuildParseTrees = true
 	tree := p.Prog()
 	v := engine.NewRiVisitor()
-	//fmt.Println(code)
 	result := v.Visit(tree)
 	fmt.Println(result)
 }
